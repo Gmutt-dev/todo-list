@@ -1,8 +1,8 @@
 // Factory function to create and return a new user
-export default function createUser(userName, password) {
+export default function createUser(username, password) {
 
     return {
-        userName,
+        username,
         password
     }
 
