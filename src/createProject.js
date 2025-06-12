@@ -5,6 +5,6 @@ export default function createProject(linkedUser, name) {
     return {
         id,
         name,
-        linkedUser
+        linkedUserId: linkedUser.userName
     }
 }
