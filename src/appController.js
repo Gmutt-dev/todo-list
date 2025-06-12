@@ -1,22 +1,17 @@
 import createTask from "./createTask";
 import createProject from "./createProject";
 import createUser from "./createUser";
+import checkUsernameExists from "./checkUserNameExists";
 
 import { getStoredItem, setStoredItem } from "./storageController";
 
-const userList = [];
-const projectList = [];
-const taskList = [];
+import {userList, projectList, taskList} from "./lists";
+
 
 // On initialize, pull all stored items and append (if storage is available - storageController checks for this and alerts if necessary)
 userList.push(...getStoredItem("userList"));
 projectList.push(...getStoredItem("projectList"));
 taskList.push(...getStoredItem("taskList"));
-
-function checkUsernameExists(username) {
-    // If username is in userList obj return true, else return false
-    if (userList.find(user => user.username === username)) return true; else return false;
-}
 
 function checkPassword() {
     // 
