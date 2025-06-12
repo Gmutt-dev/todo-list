@@ -1,10 +1,10 @@
 // Factory function to create and return a new project object
-export default function createProject(user, name) {
+export default function createProject(linkedUser, name) {
     const id = crypto.randomUUID();
     
     return {
         id,
         name,
-        linkedUser: user.userName
+        linkedUser
     }
 }
