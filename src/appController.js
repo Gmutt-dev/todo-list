@@ -8,7 +8,7 @@ import { getStoredItem, setStoredItem } from "./storageController";
 import {userList, projectList, taskList} from "./lists";
 
 // Currently logged in application user.  Initialized as nobody (undefined).
-let currentUser = undefined;
+let loggedInUser = undefined;
 
 // On initialize, pull all stored items and append (if storage is available - storageController checks for this and alerts if necessary)
 userList.push(...getStoredItem("userList"));
@@ -19,7 +19,7 @@ export function logInUser(username, password) {
 
     const foundRegisteredUser = userList.find(registeredUser => registeredUser.username === username && registeredUser.password === password);
     if (foundRegisteredUser) {
-        currentUser = foundRegisteredUser;
+        loggedInUser = foundRegisteredUser;
         return "Successfully logged in";
     }
     else return "Invalid user or password.  Please try again";
