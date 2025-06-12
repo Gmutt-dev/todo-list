@@ -33,6 +33,27 @@ export function registerNewUser(username, password) {
         const newUser = createUser(username, password);
         userList.push(newUser);
         setStoredItem("userList", userList);
+        // Create the default project for every new user:
+        const defaultProject = createProject(newUser, "default");
+        projectList.push(defaultProject);
+        setStoredItem("projectList", projectList);
         return newUser.username;
     }
 }
+
+export function getLoggedInUserProjects() {
+    return projectList.filter(project => project.linkedUserId === loggedInUser.username);
+    
+}
+
+
+function getLoggedInUserTasks(loggedInUser) {
+
+}
+
+// Reminders:
+// function to delete user (and all linked projects and tasks)
+// function to delete project (and all linked tasks)
+// funtion to delete task
+// function to rename a project (or maybe a method on the project?)?
+// function to edit a task (or maybe method on task?)?
