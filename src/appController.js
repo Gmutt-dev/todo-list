@@ -7,25 +7,13 @@ import { getStoredItem, setStoredItem } from "./storageController";
 
 import {userList, projectList, taskList} from "./lists";
 
-// Currently logged in application user.  Initialized as nobody (undefined).
-let loggedInUser = undefined;
-let activeProject = undefined;
+import { loggedInUser } from "./userSession";
 
 // On initialize, pull all stored items and append (if storage is available - storageController checks for this and alerts if necessary)
 userList.push(...getStoredItem("userList"));
 projectList.push(...getStoredItem("projectList"));
 taskList.push(...getStoredItem("taskList"));
 
-export function logInUser(username, password) {
-
-    const foundRegisteredUser = userList.find(registeredUser => registeredUser.username === username && registeredUser.password === password);
-    if (foundRegisteredUser) {
-        loggedInUser = foundRegisteredUser;
-        // TODO set active project to user's default (but what if they deleted the default project -> set to first in list?/last used?)
-        return "Successfully logged in";
-    }
-    else return "Invalid user or password.  Please try again";
-}
 
 export function registerNewUser(username, password) {
     if (checkUsernameExists(username)){
@@ -43,20 +31,20 @@ export function registerNewUser(username, password) {
     }
 }
 
-export function getLoggedInUserProjects() {
-    return projectList.filter(project => project.linkedUserId === loggedInUser.username);
+// export function getLoggedInUserProjects() {
+//     return projectList.filter(project => project.linkedUserId === loggedInUser.username);
     
-}
+// }
 
-export function createLoggedInUserProject(projectName) {
-    if (loggedInUser) {
-        const newProject = createProject(loggedInUser, projectName);
-        projectList.push(newProject);
-        setStoredItem("projectList", projectList);
-        activeProject = newProject; //set activeProject to this new project
+// export function createLoggedInUserProject(projectName) {
+//     if (loggedInUser) {
+//         const newProject = createProject(loggedInUser, projectName);
+//         projectList.push(newProject);
+//         setStoredItem("projectList", projectList);
+//         activeProject = newProject; //set activeProject to this new project
 
-    }
-}
+//     }
+// }
 
 
 function getLoggedInUserTasks(loggedInUser) {
