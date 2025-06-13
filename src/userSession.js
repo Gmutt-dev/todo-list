@@ -6,7 +6,7 @@ import { setStoredItem } from "./storageController";
 // Currently logged in application user, with projects and tasks.  Initialized as nobody (undefined).
 let loggedInUser = undefined;
 let userProjects = undefined;
-let activeProject = undefined;
+let SelectedProject = undefined;
 
 export function logInUser(username, password) {
     const foundRegisteredUser = userList.find(registeredUser => registeredUser.username === username && registeredUser.password === password);
@@ -15,10 +15,10 @@ export function logInUser(username, password) {
         userProjects = getProjectsByUser(loggedInUser);
         // TODO set active project to user's default (but what if they deleted the default project -> set to first in list?/last used?)
         if (userProjects.find(project => project.name === "default")) {
-            activeProject = userProjects.find(project => project.name === "default");
+            SelectedProject = userProjects.find(project => project.name === "default");
         }
         else {
-            activeProject = userProjects[0];
+            SelectedProject = userProjects[0];
         }
         return "Successfully logged in";
     }
@@ -30,5 +30,11 @@ export function addProject(name) {
     userProjects.push(newProject);
     projectList.push(newProject);
     setStoredItem("projectList", projectList);
+    //set as new active project?
     //emit "newProject" event for dom update?
+}
+
+export function changeSelectedProject(id) {
+    SelectedProject = userProjects.find(project => project.id === id);
+    //emit event for dom update?
 }
