@@ -1,7 +1,9 @@
 import {userList, projectList, taskList} from "./lists";
 import getProjectsByUser from "./getProjectsByUser";
 import createProject from "./createProject";
+import createTask from "./createTask";
 import { setStoredItem } from "./storageController";
+import { getTasksByUser } from "./getTasksByUser";
 
 // Currently logged in application user, with projects and tasks.  Initialized as nobody (undefined).
 let loggedInUser = undefined;
@@ -13,7 +15,7 @@ export function logInUser(username, password) {
     if (foundRegisteredUser) {
         loggedInUser = foundRegisteredUser;
         userProjects = getProjectsByUser(loggedInUser);
-        // Retrieve logged in user's tasks
+        userTasks = getTasksByUser(loggedInUser);
         return "Successfully logged in";
     }
     else return "Invalid user or password.  Please try again";
@@ -26,4 +28,13 @@ export function addProject(name) {
     setStoredItem("projectList", projectList);
     //set as new active project?
     //emit "newProject" event for dom update?
+}
+
+export function addTask(project, title, description, dueDate, priority) {
+    const newTask = createTask(project, title, description, dueDate, priority);
+    // console.log(newTask, userTasks)
+    userTasks.push(newTask);
+    taskList.push(newTask);
+    setStoredItem("taskList", taskList);
+    //emit state change event for DOM?
 }
