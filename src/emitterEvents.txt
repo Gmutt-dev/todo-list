@@ -1,0 +1,4 @@
+request:registerNewUser -> {name, password}
+
+success:newUserRegistered -> {}
+fail:newUserRegistered -> {}
