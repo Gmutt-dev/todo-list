@@ -1,13 +1,8 @@
-import createTask from "./createTask";
-import createProject from "./createProject";
-import createUser from "./createUser";
-import checkUsernameExists from "./checkUserNameExists";
+import { getStoredItem } from "./storageController";
 
-import { getStoredItem, setStoredItem } from "./storageController";
+import { userList, projectList, taskList } from "./lists";
 
-import {userList, projectList, taskList} from "./lists";
-
-import { loggedInUser } from "./userSession";
+import { registerNewUser } from "./usersManager";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
@@ -19,21 +14,7 @@ projectList.push(...getStoredItem("projectList"));
 taskList.push(...getStoredItem("taskList"));
 
 
-export function registerNewUser(username, password) {
-    if (checkUsernameExists(username)){
-        return "Failed. User already exists";
-    }
-    else {
-        const newUser = createUser(username, password);
-        userList.push(newUser);
-        setStoredItem("userList", userList);
-        // Create the default project for every new user:
-        const defaultProject = createProject(newUser, "default");
-        projectList.push(defaultProject);
-        setStoredItem("projectList", projectList);
-        return newUser.username;
-    }
-}
+
 
 // export function getLoggedInUserProjects() {
 //     return projectList.filter(project => project.linkedUserId === loggedInUser.username);
