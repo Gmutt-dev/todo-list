@@ -4,9 +4,7 @@ import createProject from "./createProject";
 import createTask from "./createTask";
 import { setStoredItem } from "./storageController";
 import { getTasksByUser } from "./getTasksByUser";
-// Import the emitter obj for DOM <-> userSession communication via events
-// NB therefore no import of domController allowed here!  Must use emitter!
-import emitter from "./emitter";
+
 
 // Currently logged in application user, with projects and tasks.  Initialized as nobody (undefined).
 let loggedInUser = undefined;

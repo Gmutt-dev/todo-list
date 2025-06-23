@@ -9,6 +9,10 @@ import {userList, projectList, taskList} from "./lists";
 
 import { loggedInUser } from "./userSession";
 
+// Import the emitter obj for DOM <-> userSession communication via events
+// NB therefore no import of domController allowed here!  Must use emitter!
+import emitter from "./emitter";
+
 // On initialize, pull all stored items and append (if storage is available - storageController checks for this and alerts if necessary)
 userList.push(...getStoredItem("userList"));
 projectList.push(...getStoredItem("projectList"));
