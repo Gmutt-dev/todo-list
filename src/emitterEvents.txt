@@ -1,4 +1,8 @@
-request:registerNewUser -> {name, password}
+request:registerNewUser -> {username, password}
+request:logInUser -> {username, password}
 
 success:newUserRegistered -> {}
 fail:newUserRegistered -> {}
+
+success:userLoggedIn -> userSession:{username, userProjects, userTasks}
+fail:userLoggedIn -> {}

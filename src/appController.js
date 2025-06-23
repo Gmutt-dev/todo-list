@@ -3,6 +3,7 @@ import { getStoredItem } from "./storageController";
 import { userList, projectList, taskList } from "./lists";
 
 import { registerNewUser } from "./usersManager";
+import { logInUser } from "./userSession";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
@@ -15,10 +16,19 @@ taskList.push(...getStoredItem("taskList"));
 
 emitter.on("request:registerNewUser", registerNewUserHandler)
 function registerNewUserHandler(event) {
-    if (registerNewUser(event.name, event.password))
+    if (registerNewUser(event.username, event.password))
         emitter.emit("success:newUserRegistered", {});
     else
         emitter.emit("fail:newUserRegistered", {});
+}
+
+emitter.on("request:logInUser", logInUserHandler);
+function logInUserHandler(event) {
+    const userSession = logInUser(event.username, event.password);
+    if (userSession)
+        emitter.emit("success:userLoggedIn", userSession);
+    else
+        emitter.emit("fail:userLoggedIn", {})
 }
 
 
