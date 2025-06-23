@@ -17,9 +17,12 @@ export function logInUser(username, password) {
         loggedInUser = foundRegisteredUser;
         userProjects = getProjectsByUser(loggedInUser);
         userTasks = getTasksByUser(loggedInUser);
-        return "Successfully logged in";
+        return {
+            username: loggedInUser.username,
+            userProjects,
+            userTasks
+        };
     }
-    else return "Invalid user or password.  Please try again";
 }
 
 export function addProject(name) {
