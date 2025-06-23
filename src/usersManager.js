@@ -6,7 +6,7 @@ import { setStoredItem } from "./storageController";
 
 export function registerNewUser(username, password) {
     if (checkUsernameExists(username)){
-        return "Failed. User already exists";
+        return false;
     }
     else {
         const newUser = createUser(username, password);
@@ -16,6 +16,6 @@ export function registerNewUser(username, password) {
         const defaultProject = createProject(newUser, "default");
         projectList.push(defaultProject);
         setStoredItem("projectList", projectList);
-        return newUser.username;
+        return true;
     }
 }
