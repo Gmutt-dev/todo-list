@@ -13,7 +13,13 @@ userList.push(...getStoredItem("userList"));
 projectList.push(...getStoredItem("projectList"));
 taskList.push(...getStoredItem("taskList"));
 
-
+emitter.on("request:registerNewUser", registerNewUserHandler)
+function registerNewUserHandler(event) {
+    if (registerNewUser(event.name, event.password))
+        emitter.emit("success:newUserRegistered", {});
+    else
+        emitter.emit("fail:newUserRegistered", {});
+}
 
 
 // export function getLoggedInUserProjects() {

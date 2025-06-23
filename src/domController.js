@@ -3,5 +3,7 @@
 import emitter from "./emitter";
 
 // TEMP - console testing
-
+emitter.on("success:newUserRegistered", () => {console.log("Registration succeeded")});
+emitter.on("fail:newUserRegistered", () => {console.log("Registration failed")});
+emitter.emit("request:registerNewUser", {name: "Sarah", password: "pwd1"});
 // END TEMP
