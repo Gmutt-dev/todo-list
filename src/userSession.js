@@ -47,3 +47,10 @@ export function addTask(project, title, description, dueDate, priority) {
     setStoredItem("taskList", taskList);
     return true;
 }
+
+
+// Reminders:
+// function to delete project (and all linked tasks)
+// funtion to delete task
+// function to edit a project (or maybe a method on the project?)?
+// function to edit a task (or maybe method on task?)?

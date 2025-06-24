@@ -62,31 +62,3 @@ function addTaskHandler(event) {
     else
         emitter.emit("fail:addTask", {});
 }
-
-
-// export function getLoggedInUserProjects() {
-//     return projectList.filter(project => project.linkedUserId === loggedInUser.username);
-    
-// }
-
-// export function createLoggedInUserProject(projectName) {
-//     if (loggedInUser) {
-//         const newProject = createProject(loggedInUser, projectName);
-//         projectList.push(newProject);
-//         setStoredItem("projectList", projectList);
-//         activeProject = newProject; //set activeProject to this new project
-
-//     }
-// }
-
-
-function getLoggedInUserTasks(loggedInUser) {
-
-}
-
-// Reminders:
-// function to delete user (and all linked projects and tasks)
-// function to delete project (and all linked tasks)
-// funtion to delete task
-// function to rename a project (or maybe a method on the project?)?
-// function to edit a task (or maybe method on task?)?
