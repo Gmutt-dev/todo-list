@@ -12,12 +12,18 @@ emitter.on("success:userLoggedIn", (e) => {
 emitter.on("fail:userLoggedIn", () => console.log("Failed to log in. Please try again"));
 emitter.on("success:userLoggedOut", () => console.log("Successfully logged out the user"));
 emitter.on("fail:userLoggedOut", () => console.log("Failed to log out the user"));
+emitter.on("success:userDeregistered", () => console.log("User successfully deregistered"));
+emitter.on("fail:userDeregistered", () => console.log("Failed to deregister user"));
 
 emitter.emit("request:registerNewUser", {username: "Sarah", password: "pwd1"});
+emitter.emit("request:registerNewUser", {username: "Peter", password: "pwd2"});
+emitter.emit("request:registerNewUser", {username: "John", password: "pwd3"});
 
 emitter.emit("request:logInUser", {username: "Sarah", password: "pwd1"});
 
 emitter.emit("request:logOutUser", {});
+
+emitter.emit("request:deregisterUser", {username: "Peter", password: "pwd2"})
 
 
 // END TEMP

@@ -1,12 +1,14 @@
 request:registerNewUser -> {username, password}
 request:logInUser -> {username, password}
 request:logOutUser -> {}
-// request:deleteUser -> {username, password}
+request:deregisterUser -> {username, password}
 
 success:newUserRegistered -> {}
-fail:newUserRegistered -> {}
-
 success:userLoggedIn -> userSession:{username, userProjects, userTasks}
 success:userLoggedOut -> {}
+success:userDeregistered -> {}
+
+fail:newUserRegistered -> {}
 fail:userLoggedIn -> {}
 fail:userLoggedOut -> {}
+fail:userDeregistered -> {}

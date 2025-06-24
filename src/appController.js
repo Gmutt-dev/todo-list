@@ -2,7 +2,7 @@ import { getStoredItem } from "./storageController";
 
 import { userList, projectList, taskList } from "./lists";
 
-import { registerNewUser } from "./usersManager";
+import { registerNewUser, deregisterUser } from "./usersManager";
 import { logInUser, logOutUser } from "./userSession";
 
 // Import the emitter obj for DOM <-> appController communication via events
@@ -37,6 +37,14 @@ function logOutUserHandler() {
         emitter.emit("success:userLoggedOut", {});
     else
         emitter.emit("fail:userLoggedOut", {});
+}
+
+emitter.on("request:deregisterUser", deregisterUserHandler);
+function deregisterUserHandler(event) {
+    if (deregisterUser(event.username, event.password))
+        emitter.emit("success:userDeregistered", {})
+    else
+        emitter.emit("fail:userDeregistered", {})
 }
 
 
