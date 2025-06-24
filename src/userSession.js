@@ -25,6 +25,13 @@ export function logInUser(username, password) {
     }
 }
 
+export function logOutUser() {
+    loggedInUser = undefined;
+    userProjects = undefined;
+    userTasks = undefined;
+    return true;
+}
+
 export function addProject(name) {
     const newProject = createProject(loggedInUser, name);
     userProjects.push(newProject);

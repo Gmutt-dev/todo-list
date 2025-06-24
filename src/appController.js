@@ -3,7 +3,7 @@ import { getStoredItem } from "./storageController";
 import { userList, projectList, taskList } from "./lists";
 
 import { registerNewUser } from "./usersManager";
-import { logInUser } from "./userSession";
+import { logInUser, logOutUser } from "./userSession";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
@@ -29,6 +29,14 @@ function logInUserHandler(event) {
         emitter.emit("success:userLoggedIn", userSession);
     else
         emitter.emit("fail:userLoggedIn", {})
+}
+
+emitter.on("request:logOutUser", logOutUserHandler);
+function logOutUserHandler() {
+    if (logOutUser())
+        emitter.emit("success:userLoggedOut", {});
+    else
+        emitter.emit("fail:userLoggedOut", {});
 }
 
 
