@@ -25,6 +25,8 @@ emitter.on("success:userDeregistered", () => console.log("User successfully dere
 emitter.on("fail:userDeregistered", () => console.log("Failed to deregister user"));
 emitter.on("success:addProject", () => console.log("Added new project"));
 emitter.on("fail:addProject", () => console.log("Failed to add new project"));
+emitter.on("success:addTask", () => console.log("Successfully added a new task to the active project"));
+emitter.on("fail:addTask", () => console.log("Failed to add new task"));
 
 emitter.emit("request:registerNewUser", {username: "Sarah", password: "pwd1"});
 emitter.emit("request:registerNewUser", {username: "Peter", password: "pwd2"});
@@ -37,6 +39,8 @@ emitter.emit("request:logInUser", {username: "Sarah", password: "pwd1"});
 emitter.emit("request:deregisterUser", {username: "Peter", password: "pwd2"})
 
 emitter.emit("request:addProject", {name: "Garden"});
+
+emitter.emit("request:addTask", {project: userSession.userProjects[0], title: "Test title", description: "Test description", dueDate: "20250202", priority:"high"});
 
 
 // END TEMP

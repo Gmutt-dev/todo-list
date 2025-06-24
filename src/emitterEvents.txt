@@ -3,15 +3,18 @@ request:logInUser -> {username, password}
 request:logOutUser -> {}
 request:deregisterUser -> {username, password}
 request:addProject -> {projectName}
+request:addTask -> {projectOBJ, title, description, dueDate, priority}
 
 success:newUserRegistered -> {}
 success:userLoggedIn -> userSession:{username, userProjects, userTasks}
 success:userLoggedOut -> {}
 success:userDeregistered -> {}
 success:addProject -> {}
+success:addTask -> {}
 
 fail:newUserRegistered -> {}
 fail:userLoggedIn -> {}
 fail:userLoggedOut -> {}
 fail:userDeregistered -> {}
 fail:addProject -> {}
+fail:addTask -> {}

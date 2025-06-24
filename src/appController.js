@@ -54,10 +54,14 @@ function addProjectHandler(event) {
     else
         emitter.emit("fail:addProject", {});
 }
-// emitter.on("request:addTask", addTaskHandler);
-// function addTaskHandler(event) {
-//     if (addTask(event.))
-// }
+
+emitter.on("request:addTask", addTaskHandler);
+function addTaskHandler(event) {
+    if (addTask(event.project, event.title, event.description, event.dueDate, event.priority))
+        emitter.emit("success:addTask", {});
+    else
+        emitter.emit("fail:addTask", {});
+}
 
 
 // export function getLoggedInUserProjects() {
