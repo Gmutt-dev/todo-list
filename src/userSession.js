@@ -37,15 +37,13 @@ export function addProject(name) {
     userProjects.push(newProject);
     projectList.push(newProject);
     setStoredItem("projectList", projectList);
-    //set as new active project?
-    //emit "newProject" event for dom update?
+    return true;
 }
 
 export function addTask(project, title, description, dueDate, priority) {
     const newTask = createTask(project, title, description, dueDate, priority);
-    // console.log(newTask, userTasks)
     userTasks.push(newTask);
     taskList.push(newTask);
     setStoredItem("taskList", taskList);
-    //emit state change event for DOM?
+    return true;
 }
