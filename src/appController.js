@@ -3,7 +3,7 @@ import { getStoredItem } from "./storageController";
 import { userList, projectList, taskList } from "./lists";
 
 import { registerNewUser, deregisterUser } from "./usersManager";
-import { logInUser, logOutUser } from "./userSession";
+import { addProject, addTask, logInUser, logOutUser } from "./userSession";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
@@ -28,7 +28,7 @@ function logInUserHandler(event) {
     if (userSession)
         emitter.emit("success:userLoggedIn", userSession);
     else
-        emitter.emit("fail:userLoggedIn", {})
+        emitter.emit("fail:userLoggedIn", {});
 }
 
 emitter.on("request:logOutUser", logOutUserHandler);
@@ -42,10 +42,22 @@ function logOutUserHandler() {
 emitter.on("request:deregisterUser", deregisterUserHandler);
 function deregisterUserHandler(event) {
     if (deregisterUser(event.username, event.password))
-        emitter.emit("success:userDeregistered", {})
+        emitter.emit("success:userDeregistered", {});
     else
-        emitter.emit("fail:userDeregistered", {})
+        emitter.emit("fail:userDeregistered", {});
 }
+
+emitter.on("request:addProject", addProjectHandler);
+function addProjectHandler(event) {
+    if (addProject(event.name))
+        emitter.emit("success:addProject", {});
+    else
+        emitter.emit("fail:addProject", {});
+}
+// emitter.on("request:addTask", addTaskHandler);
+// function addTaskHandler(event) {
+//     if (addTask(event.))
+// }
 
 
 // export function getLoggedInUserProjects() {
