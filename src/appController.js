@@ -1,16 +1,11 @@
-import { getStoredItem } from "./storageController";
-
-import { taskList } from "./lists";
-
 import { registerNewUser, deregisterUser } from "./usersManager";
-import { newProject, addTask, logInUser, logOutUser } from "./userSession";
+import { newProject, newTask, logInUser, logOutUser } from "./userSession";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
 import emitter from "./emitter";
 
-// On initialize, pull all stored items and append (if storage is available - storageController checks for this and alerts if necessary)
-taskList.push(...getStoredItem("taskList"));
+
 
 emitter.on("request:registerNewUser", registerNewUserHandler)
 function registerNewUserHandler(event) {
@@ -55,7 +50,7 @@ function addProjectHandler(event) {
 
 emitter.on("request:addTask", addTaskHandler);
 function addTaskHandler(event) {
-    if (addTask(event.project, event.title, event.description, event.dueDate, event.priority))
+    if (newTask(event.project, event.title, event.description, event.dueDate, event.priority))
         emitter.emit("success:addTask", {});
     else
         emitter.emit("fail:addTask", {});

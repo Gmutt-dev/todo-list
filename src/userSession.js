@@ -1,9 +1,6 @@
 import { getUserListClone } from "./usersManager";
-import { taskList} from "./lists";
 import { createProject, addProject, getProjectsByUserClone } from "./projectsManager";
-import createTask from "./createTask";
-import { setStoredItem } from "./storageController";
-import { getTasksByUser } from "./getTasksByUser";
+import { createTask, addTask, getTasksByUserClone } from "./tasksManager";
 
 
 // Currently logged in application user, with projects and tasks.  Initialized as nobody (undefined).
@@ -16,7 +13,7 @@ export function logInUser(username, password) {
     if (foundRegisteredUser) {
         loggedInUser = foundRegisteredUser;
         userProjects = getProjectsByUserClone(loggedInUser);
-        userTasks = getTasksByUser(loggedInUser);
+        userTasks = getTasksByUserClone(loggedInUser);
         return {
             username: loggedInUser.username,
             userProjects,
@@ -40,11 +37,11 @@ export function newProject(name) {
     return true;
 }
 
-export function addTask(project, title, description, dueDate, priority) {
+export function newTask(project, title, description, dueDate, priority) {
     const newTask = createTask(project, title, description, dueDate, priority);
     userTasks.push(newTask);
-    taskList.push(newTask);
-    setStoredItem("taskList", taskList);
+    addTask(newTask);
+
     return true;
 }
 

@@ -1,7 +1,6 @@
-import { taskList } from "./lists";
 import { addProject, createProject, deleteProjectsByUser } from "./projectsManager";
+import { deleteTasksByUser } from "./tasksManager";
 import { getStoredItem, setStoredItem } from "./storageController";
-import deleteTasksByUser from "./deleteTasksByUser";
 
 //Initialization:
 const userList = [];
@@ -46,7 +45,6 @@ export function deregisterUser(username, password) {
     if (foundRegisteredUser) {
         deleteProjectsByUser(foundRegisteredUser);
         deleteTasksByUser(foundRegisteredUser);
-        setStoredItem("taskList", taskList);
         userList.splice(userList.findIndex(user => user.username === foundRegisteredUser.username), 1)
         setStoredItem("userList", userList);
         return true;
