@@ -1,6 +1,6 @@
 import { getStoredItem } from "./storageController";
 
-import { userList, projectList, taskList } from "./lists";
+import { projectList, taskList } from "./lists";
 
 import { registerNewUser, deregisterUser } from "./usersManager";
 import { addProject, addTask, logInUser, logOutUser } from "./userSession";
@@ -10,7 +10,7 @@ import { addProject, addTask, logInUser, logOutUser } from "./userSession";
 import emitter from "./emitter";
 
 // On initialize, pull all stored items and append (if storage is available - storageController checks for this and alerts if necessary)
-userList.push(...getStoredItem("userList"));
+
 projectList.push(...getStoredItem("projectList"));
 taskList.push(...getStoredItem("taskList"));
 

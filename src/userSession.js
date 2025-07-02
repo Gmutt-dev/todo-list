@@ -1,4 +1,5 @@
-import {userList, projectList, taskList} from "./lists";
+import { getUserListClone } from "./usersManager";
+import { projectList, taskList} from "./lists";
 import getProjectsByUser from "./getProjectsByUser";
 import createProject from "./createProject";
 import createTask from "./createTask";
@@ -12,7 +13,7 @@ let userProjects = undefined;
 let userTasks = undefined;
 
 export function logInUser(username, password) {
-    const foundRegisteredUser = userList.find(registeredUser => registeredUser.username === username && registeredUser.password === password);
+    const foundRegisteredUser = getUserListClone().find(registeredUser => registeredUser.username === username && registeredUser.password === password);
     if (foundRegisteredUser) {
         loggedInUser = foundRegisteredUser;
         userProjects = getProjectsByUser(loggedInUser);
