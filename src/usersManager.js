@@ -1,7 +1,6 @@
-import { projectList, taskList } from "./lists";
-import createProject from "./createProject";
+import { taskList } from "./lists";
+import { addProject, createProject, deleteProjectsByUser } from "./projectsManager";
 import { getStoredItem, setStoredItem } from "./storageController";
-import deleteProjectsByUser from "./deleteProjectsByUser";
 import deleteTasksByUser from "./deleteTasksByUser";
 
 //Initialization:
@@ -28,8 +27,7 @@ export function registerNewUser(username, password) {
         setStoredItem("userList", userList);
         // Create the default project for every new user:
         const defaultProject = createProject(newUser, "default");
-        projectList.push(defaultProject);
-        setStoredItem("projectList", projectList);
+        addProject(defaultProject);
         return true;
     }
 }
@@ -47,7 +45,6 @@ export function deregisterUser(username, password) {
     const foundRegisteredUser = userList.find(registeredUser => registeredUser.username === username && registeredUser.password === password);
     if (foundRegisteredUser) {
         deleteProjectsByUser(foundRegisteredUser);
-        setStoredItem("projectList", projectList);
         deleteTasksByUser(foundRegisteredUser);
         setStoredItem("taskList", taskList);
         userList.splice(userList.findIndex(user => user.username === foundRegisteredUser.username), 1)
