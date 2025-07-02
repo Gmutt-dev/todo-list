@@ -5,7 +5,7 @@ import deleteProjectsByUser from "./deleteProjectsByUser";
 import deleteTasksByUser from "./deleteTasksByUser";
 
 //Initialization:
-export const userList = [];
+const userList = [];
 userList.push(...getStoredItem("userList"));
 
 // Factory function to create and return a new user
