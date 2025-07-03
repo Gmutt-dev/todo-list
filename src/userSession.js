@@ -13,11 +13,7 @@ export function createUserSession(user) {
         loggedInUser = user;
         userProjects = getProjectsByUserClone(loggedInUser);
         userTasks = getTasksByUserClone(loggedInUser);
-        return structuredClone({
-            username: loggedInUser.username,
-            userProjects,
-            userTasks
-        });
+        return true;
     }
 }
 

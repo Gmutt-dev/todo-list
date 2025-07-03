@@ -7,8 +7,6 @@ import { addTask } from "./tasksManager";
 // NB therefore no import of domController allowed here!  Must use emitter!
 import emitter from "./emitter";
 
-let userSessionClone = undefined;
-
 emitter.on("request:registerNewUser", registerNewUserHandler)
 function registerNewUserHandler(event) {
     if (registerNewUser(event.username, event.password))
@@ -22,8 +20,8 @@ function logInUserHandler(event) {
     // check if valid user
     if (isRegisteredUser({username: event.username, password: event.password})) {
         // if valid user request new userSession
-        userSessionClone = createUserSession(event);
-            emitter.emit("success:userLoggedIn", userSessionClone);            
+        if (createUserSession(event))
+            emitter.emit("success:userLoggedIn", getUserSessionClone());            
         }
         else
             emitter.emit("fail:userLoggedIn", {});
@@ -31,9 +29,8 @@ function logInUserHandler(event) {
 
 emitter.on("request:logOutUser", logOutUserHandler);
 function logOutUserHandler() {
-    userSessionClone = clearUserSession();
     if (clearUserSession())
-        emitter.emit("success:userLoggedOut", userSessionClone);
+        emitter.emit("success:userLoggedOut", getUserSessionClone());
     else
         emitter.emit("fail:userLoggedOut", {});
 }
