@@ -1,7 +1,7 @@
 import { isRegisteredUser, registerNewUser, deregisterUser } from "./usersManager";
 import { getLoggedInUser, getUserSessionClone, newProject, newTask, createUserSession, clearUserSession } from "./userSession";
 import { addProject, deleteProjectByProjectId } from "./projectsManager";
-import { addTask } from "./tasksManager";
+import { addTask, deleteTaskByTaskId } from "./tasksManager";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
@@ -65,8 +65,13 @@ function deleteProjectHandler(event) {
     emitter.emit("userSessionUpdated", getUserSessionClone());
 }
 
+emitter.on("request:deleteTask", deleteTaskHandler);
+function deleteTaskHandler(event) {
+    deleteTaskByTaskId(event.taskId);
+    emitter.emit("userSessionUpdated", getUserSessionClone());
+}
+
 // Reminders:
-// function to delete project (and all linked tasks)
 // funtion to delete task
 // function to edit a project (or maybe a method on the project?)?
 // function to edit a task (or maybe method on task?)?

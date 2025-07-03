@@ -42,6 +42,11 @@ export function getTasksByUserClone(user) {
     return structuredClone(taskList.filter(task => userProjectsIds.includes(task.linkedProjectId)));
 }
 
+export function deleteTaskByTaskId(taskId) {
+    taskList.splice(taskList.findIndex( task => task.id === taskId), 1);
+    setStoredItem("taskList", taskList);
+}
+
 export function deleteTasksByProjectId(projectId) {
     for (let i = 0; i < taskList.length; i++) {
         if (taskList[i].linkedProjectId === projectId) {
