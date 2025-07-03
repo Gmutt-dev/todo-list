@@ -1,6 +1,6 @@
 import { isRegisteredUser, registerNewUser, deregisterUser } from "./usersManager";
 import { getLoggedInUser, getUserSessionClone, newProject, newTask, createUserSession, clearUserSession } from "./userSession";
-import { addProject } from "./projectsManager";
+import { addProject, deleteProjectByProjectId } from "./projectsManager";
 import { addTask } from "./tasksManager";
 
 // Import the emitter obj for DOM <-> appController communication via events
@@ -57,6 +57,12 @@ function addTaskHandler(event) {
         emitter.emit("userSessionUpdated", getUserSessionClone());
     else
         emitter.emit("fail:addTask", {});
+}
+
+emitter.on("request:deleteProject", deleteProjectHandler);
+function deleteProjectHandler(event) {
+    deleteProjectByProjectId(event.projectId);
+    emitter.emit("userSessionUpdated", getUserSessionClone());
 }
 
 // Reminders:

@@ -1,3 +1,4 @@
+import { deleteTasksByProjectId } from "./tasksManager";
 import { getStoredItem, setStoredItem } from "./storageController";
 // Initialization:
 const projectList = [];
@@ -30,6 +31,12 @@ function getProjectsByUser(user) {
 
 export function getProjectsByUserClone(user) {
     return structuredClone(projectList.filter(project => project.linkedUserId === user.username));
+}
+
+export function deleteProjectByProjectId(projectId) {
+    deleteTasksByProjectId(projectId);
+    projectList.splice(projectList.findIndex( project => project.id === projectId ), 1);
+    setStoredItem("projectList", projectList);
 }
 
 export function deleteProjectsByUser(user) {
