@@ -6,6 +6,7 @@ request:addProject -> {projectName}
 request:addTask -> {projectOBJ, title, description, dueDate, priority}
 request:deleteProject -> {projectId}
 request:deleteTask -> {taskId}
+request:updateProject -> {projectId, name}
 
 success:newUserRegistered -> {}
 success:userDeregistered -> {}

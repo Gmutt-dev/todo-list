@@ -33,6 +33,12 @@ export function getProjectsByUserClone(user) {
     return structuredClone(projectList.filter(project => project.linkedUserId === user.username));
 }
 
+export function updateProject(updatedProject) {
+    const currentProject = projectList.find( project => project.id === updateProject.id );
+    currentProject.name = updatedProject.name;
+    setStoredItem("projectList", projectList);
+}
+
 export function deleteProjectByProjectId(projectId) {
     deleteTasksByProjectId(projectId);
     projectList.splice(projectList.findIndex( project => project.id === projectId ), 1);

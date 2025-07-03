@@ -1,6 +1,6 @@
 import { isRegisteredUser, registerNewUser, deregisterUser } from "./usersManager";
 import { getLoggedInUser, getUserSessionClone, newProject, newTask, createUserSession, clearUserSession } from "./userSession";
-import { addProject, deleteProjectByProjectId } from "./projectsManager";
+import { addProject, deleteProjectByProjectId, updateProject } from "./projectsManager";
 import { addTask, deleteTaskByTaskId } from "./tasksManager";
 
 // Import the emitter obj for DOM <-> appController communication via events
@@ -71,7 +71,11 @@ function deleteTaskHandler(event) {
     emitter.emit("userSessionUpdated", getUserSessionClone());
 }
 
+emitter.on("request:updateProject", updateProjectHandler);
+function updateProjectHandler(event) {
+    updateProject(event);
+    emitter.emit("userSessionUpdated", getUserSessionClone());
+}
+
 // Reminders:
-// funtion to delete task
-// function to edit a project (or maybe a method on the project?)?
 // function to edit a task (or maybe method on task?)?
