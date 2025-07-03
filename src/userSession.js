@@ -3,16 +3,11 @@ import { createProject, addProject, getProjectsByUserClone } from "./projectsMan
 import { createTask, addTask, getTasksByUserClone } from "./tasksManager";
 
 
-// Currently logged in application user, with projects and tasks.  Initialized as nobody (undefined).
 let loggedInUser = undefined;
-let userProjects = undefined;
-let userTasks = undefined;
 
 export function createUserSession(user) {
     if (isRegisteredUser(user)) {
         loggedInUser = user;
-        userProjects = getProjectsByUserClone(loggedInUser);
-        userTasks = getTasksByUserClone(loggedInUser);
         return true;
     }
 }
@@ -24,14 +19,12 @@ export function getLoggedInUser() {
 export function getUserSessionClone() {
     return structuredClone({
         loggedInUser: {username: loggedInUser.username},
-        userProjects,
-        userTasks
+        userProjects: getProjectsByUserClone(loggedInUser),
+        userTasks: getTasksByUserClone(loggedInUser)
     })
 }
 
 export function clearUserSession() {
     loggedInUser = undefined;
-    userProjects = undefined;
-    userTasks = undefined;
     return undefined;
 }
