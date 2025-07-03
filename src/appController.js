@@ -21,7 +21,7 @@ function logInUserHandler(event) {
     if (isRegisteredUser({username: event.username, password: event.password})) {
         // if valid user request new userSession
         if (createUserSession(event))
-            emitter.emit("success:userLoggedIn", getUserSessionClone());            
+            emitter.emit("userSessionUpdated", getUserSessionClone());            
         }
         else
             emitter.emit("fail:userLoggedIn", {});
@@ -30,7 +30,7 @@ function logInUserHandler(event) {
 emitter.on("request:logOutUser", logOutUserHandler);
 function logOutUserHandler() {
     if (clearUserSession())
-        emitter.emit("success:userLoggedOut", getUserSessionClone());
+        emitter.emit("userSessionUpdated", getUserSessionClone());
     else
         emitter.emit("fail:userLoggedOut", {});
 }
@@ -46,7 +46,7 @@ function deregisterUserHandler(event) {
 emitter.on("request:addProject", addProjectHandler);
 function addProjectHandler(event) {
     if (addProject(getLoggedInUser(), event.ProjectName))
-        emitter.emit("success:addProject", getUserSessionClone());
+        emitter.emit("userSessionUpdated", getUserSessionClone());
     else
         emitter.emit("fail:addProject", {});
 }
@@ -54,7 +54,7 @@ function addProjectHandler(event) {
 emitter.on("request:addTask", addTaskHandler);
 function addTaskHandler(event) {
     if (addTask(event.project, event.title, event.description, event.dueDate, event.priority))
-        emitter.emit("success:addTask", getUserSessionClone());
+        emitter.emit("userSessionUpdated", getUserSessionClone());
     else
         emitter.emit("fail:addTask", {});
 }

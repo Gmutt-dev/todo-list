@@ -6,11 +6,12 @@ request:addProject -> {projectName}
 request:addTask -> {projectOBJ, title, description, dueDate, priority}
 
 success:newUserRegistered -> {}
-success:userLoggedIn -> userSession:{username, userProjects, userTasks}
-success:userLoggedOut -> {}
 success:userDeregistered -> {}
-success:addProject -> {}
-success:addTask -> {}
+userSessionUpdated -> userSessionClone: {
+        loggedInUser: {username: loggedInUser.username},
+        userProjects,
+        userTasks
+    }
 
 fail:newUserRegistered -> {}
 fail:userLoggedIn -> {}
