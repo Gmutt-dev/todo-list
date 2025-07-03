@@ -1,6 +1,6 @@
-import { getUserListClone, isRegisteredUser } from "./usersManager";
-import { createProject, addProject, getProjectsByUserClone } from "./projectsManager";
-import { createTask, addTask, getTasksByUserClone } from "./tasksManager";
+import { isRegisteredUser } from "./usersManager";
+import { getProjectsByUserClone } from "./projectsManager";
+import { getTasksByUserClone } from "./tasksManager";
 
 
 let loggedInUser = undefined;
@@ -17,11 +17,12 @@ export function getLoggedInUser() {
 }
 
 export function getUserSessionClone() {
-    return structuredClone({
-        loggedInUser: {username: loggedInUser.username},
-        userProjects: getProjectsByUserClone(loggedInUser),
-        userTasks: getTasksByUserClone(loggedInUser)
-    })
+    if (loggedInUser)
+        return structuredClone({
+            loggedInUser: {username: loggedInUser.username},
+            userProjects: getProjectsByUserClone(loggedInUser),
+            userTasks: getTasksByUserClone(loggedInUser)
+        })
 }
 
 export function clearUserSession() {
