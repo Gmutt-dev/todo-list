@@ -15,6 +15,14 @@ function registerNewUserHandler(event) {
         emitter.emit("fail:newUserRegistered", {});
 }
 
+emitter.on("request:deregisterUser", deregisterUserHandler);
+function deregisterUserHandler(event) {
+    if (deregisterUser(event.username, event.password))
+        emitter.emit("success:userDeregistered", {});
+    else
+        emitter.emit("fail:userDeregistered", {});
+}
+
 emitter.on("request:logInUser", logInUserHandler);
 function logInUserHandler(event) {
     // check if valid user
@@ -33,14 +41,6 @@ function logOutUserHandler() {
         emitter.emit("userSessionUpdated", getUserSessionClone());
     else
         emitter.emit("fail:userLoggedOut", {});
-}
-
-emitter.on("request:deregisterUser", deregisterUserHandler);
-function deregisterUserHandler(event) {
-    if (deregisterUser(event.username, event.password))
-        emitter.emit("success:userDeregistered", {});
-    else
-        emitter.emit("fail:userDeregistered", {});
 }
 
 emitter.on("request:addProject", addProjectHandler);
