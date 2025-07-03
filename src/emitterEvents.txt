@@ -5,6 +5,7 @@ request:deregisterUser -> {username, password}
 request:addProject -> {projectName}
 request:addTask -> {projectOBJ, title, description, dueDate, priority}
 request:deleteProject -> {projectId}
+request:deleteTask -> {taskId}
 
 success:newUserRegistered -> {}
 success:userDeregistered -> {}
