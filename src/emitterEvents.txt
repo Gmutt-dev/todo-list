@@ -4,6 +4,7 @@ request:logOutUser -> {}
 request:deregisterUser -> {username, password}
 request:addProject -> {projectName}
 request:addTask -> {projectOBJ, title, description, dueDate, priority}
+request:deleteProject -> {projectId}
 
 success:newUserRegistered -> {}
 success:userDeregistered -> {}
