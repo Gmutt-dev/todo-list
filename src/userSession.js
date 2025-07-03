@@ -1,4 +1,4 @@
-import { getUserListClone } from "./usersManager";
+import { getUserListClone, isRegisteredUser } from "./usersManager";
 import { createProject, addProject, getProjectsByUserClone } from "./projectsManager";
 import { createTask, addTask, getTasksByUserClone } from "./tasksManager";
 
@@ -8,46 +8,34 @@ let loggedInUser = undefined;
 let userProjects = undefined;
 let userTasks = undefined;
 
-export function logInUser(username, password) {
-    const foundRegisteredUser = getUserListClone().find(registeredUser => registeredUser.username === username && registeredUser.password === password);
-    if (foundRegisteredUser) {
-        loggedInUser = foundRegisteredUser;
+export function createUserSession(user) {
+    if (isRegisteredUser(user)) {
+        loggedInUser = user;
         userProjects = getProjectsByUserClone(loggedInUser);
         userTasks = getTasksByUserClone(loggedInUser);
-        return {
+        return structuredClone({
             username: loggedInUser.username,
             userProjects,
             userTasks
-        };
+        });
     }
 }
 
-export function logOutUser() {
+export function getLoggedInUser() {
+    return {username: loggedInUser.username} // No password returned for security reasons.  Was only needed for login
+}
+
+export function getUserSessionClone() {
+    return structuredClone({
+        loggedInUser: {username: loggedInUser.username},
+        userProjects,
+        userTasks
+    })
+}
+
+export function clearUserSession() {
     loggedInUser = undefined;
     userProjects = undefined;
     userTasks = undefined;
-    return true;
+    return undefined;
 }
-
-export function newProject(name) {
-    const newProject = createProject(loggedInUser, name);
-    userProjects.push(newProject);
-    addProject(newProject);
-    
-    return true;
-}
-
-export function newTask(project, title, description, dueDate, priority) {
-    const newTask = createTask(project, title, description, dueDate, priority);
-    userTasks.push(newTask);
-    addTask(newTask);
-
-    return true;
-}
-
-
-// Reminders:
-// function to delete project (and all linked tasks)
-// funtion to delete task
-// function to edit a project (or maybe a method on the project?)?
-// function to edit a task (or maybe method on task?)?

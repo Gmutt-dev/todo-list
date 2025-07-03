@@ -1,11 +1,13 @@
-import { registerNewUser, deregisterUser } from "./usersManager";
-import { newProject, newTask, logInUser, logOutUser } from "./userSession";
+import { isRegisteredUser, registerNewUser, deregisterUser } from "./usersManager";
+import { getLoggedInUser, getUserSessionClone, newProject, newTask, createUserSession, clearUserSession } from "./userSession";
+import { addProject } from "./projectsManager";
+import { addTask } from "./tasksManager";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
 import emitter from "./emitter";
 
-
+let userSessionClone = undefined;
 
 emitter.on("request:registerNewUser", registerNewUserHandler)
 function registerNewUserHandler(event) {
@@ -17,17 +19,21 @@ function registerNewUserHandler(event) {
 
 emitter.on("request:logInUser", logInUserHandler);
 function logInUserHandler(event) {
-    const userSession = logInUser(event.username, event.password);
-    if (userSession)
-        emitter.emit("success:userLoggedIn", userSession);
-    else
-        emitter.emit("fail:userLoggedIn", {});
+    // check if valid user
+    if (isRegisteredUser({username: event.username, password: event.password})) {
+        // if valid user request new userSession
+        userSessionClone = createUserSession(event);
+            emitter.emit("success:userLoggedIn", userSessionClone);            
+        }
+        else
+            emitter.emit("fail:userLoggedIn", {});
 }
 
 emitter.on("request:logOutUser", logOutUserHandler);
 function logOutUserHandler() {
-    if (logOutUser())
-        emitter.emit("success:userLoggedOut", {});
+    userSessionClone = clearUserSession();
+    if (clearUserSession())
+        emitter.emit("success:userLoggedOut", userSessionClone);
     else
         emitter.emit("fail:userLoggedOut", {});
 }
@@ -42,16 +48,22 @@ function deregisterUserHandler(event) {
 
 emitter.on("request:addProject", addProjectHandler);
 function addProjectHandler(event) {
-    if (newProject(event.name))
-        emitter.emit("success:addProject", {});
+    if (addProject(getLoggedInUser(), event.ProjectName))
+        emitter.emit("success:addProject", getUserSessionClone());
     else
         emitter.emit("fail:addProject", {});
 }
 
 emitter.on("request:addTask", addTaskHandler);
 function addTaskHandler(event) {
-    if (newTask(event.project, event.title, event.description, event.dueDate, event.priority))
-        emitter.emit("success:addTask", {});
+    if (addTask(event.project, event.title, event.description, event.dueDate, event.priority))
+        emitter.emit("success:addTask", getUserSessionClone());
     else
         emitter.emit("fail:addTask", {});
 }
+
+// Reminders:
+// function to delete project (and all linked tasks)
+// funtion to delete task
+// function to edit a project (or maybe a method on the project?)?
+// function to edit a task (or maybe method on task?)?

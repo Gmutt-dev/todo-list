@@ -1,4 +1,4 @@
-import { addProject, createProject, deleteProjectsByUser } from "./projectsManager";
+import { addProject, deleteProjectsByUser } from "./projectsManager";
 import { deleteTasksByUser } from "./tasksManager";
 import { getStoredItem, setStoredItem } from "./storageController";
 
@@ -7,7 +7,7 @@ const userList = [];
 userList.push(...getStoredItem("userList"));
 
 // Factory function to create and return a new user
-export default function createUser(username, password) {
+function createUser(username, password) {
 
     return {
         username,
@@ -25,15 +25,18 @@ export function registerNewUser(username, password) {
         userList.push(newUser);
         setStoredItem("userList", userList);
         // Create the default project for every new user:
-        const defaultProject = createProject(newUser, "default");
-        addProject(defaultProject);
+        addProject(newUser, "default");
         return true;
     }
 }
 
-export function checkUsernameExists(username) {
+function checkUsernameExists(username) {
     // If username is in userList obj return true, else return false
     if (userList.find(user => user.username === username)) return true; else return false;
+}
+
+export function isRegisteredUser (user) {
+    if (userList.find(registeredUser => registeredUser.username === user.username && registeredUser.password === user.password)) return true; else return false;
 }
 
 export function getUserListClone() {

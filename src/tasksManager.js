@@ -21,9 +21,13 @@ export function createTask(linkedProject, title, description, dueDate, priority)
     };
 }
 
-export function addTask(task) {
-    taskList.push(task);
-    setStoredItem("taskList", taskList);    
+export function addTask(project, title, description, dueDate, priority) {
+    const newTask = createTask(project, title, description, dueDate, priority);
+    if (newTask) {
+        taskList.push(newTask);
+        setStoredItem("taskList", taskList);
+        return true; 
+    }
 }
 
 function getTasksByUser(user) {
