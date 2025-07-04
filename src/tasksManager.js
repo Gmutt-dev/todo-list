@@ -43,12 +43,12 @@ export function getTasksByUserClone(user) {
 }
 
 export function updateTask(updatedTask) {
-    currentTask = taskList.find( task => task.id === updatedTask.id);
-    currentTask.title = updatedTask.title;
-    currentTask.description = updatedTask.title;
-    currentTask.dueDate = updatedTask.dueDate;
-    currentTask.priority = updatedTask.priority;
-    currentTask.isDone = updatedTask.isDone;
+    const currentTask = taskList.find( task => task.id === updatedTask.id);
+    if (updatedTask.title) currentTask.title = updatedTask.title;
+    if (updatedTask.description) currentTask.description = updatedTask.description;
+    if (updatedTask.dueDate) currentTask.dueDate = updatedTask.dueDate;
+    if (updatedTask.priority) currentTask.priority = updatedTask.priority;
+    if (updatedTask.isDone) currentTask.isDone = updatedTask.isDone;
     setStoredItem("taskList", taskList);
 }
 

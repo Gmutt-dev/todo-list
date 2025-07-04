@@ -42,5 +42,6 @@ emitter.emit("request:addProject", {projectName: "Garden"});
 
 emitter.emit("request:addTask", {project: userSession.userProjects[0], title: "Test title", description: "Test description", dueDate: "20250202", priority:"high"});
 
+emitter.emit("request:updateTask", {id: "f3379445-f0f5-4933-a50e-566fb976e8a6", description: "Updated test description"});
 
 // END TEMP

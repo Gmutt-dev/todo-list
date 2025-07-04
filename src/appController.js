@@ -1,7 +1,7 @@
 import { isRegisteredUser, registerNewUser, deregisterUser } from "./usersManager";
 import { getLoggedInUser, getUserSessionClone, newProject, newTask, createUserSession, clearUserSession } from "./userSession";
 import { addProject, deleteProjectByProjectId, updateProject } from "./projectsManager";
-import { addTask, deleteTaskByTaskId } from "./tasksManager";
+import { addTask, deleteTaskByTaskId, updateTask } from "./tasksManager";
 
 // Import the emitter obj for DOM <-> appController communication via events
 // NB therefore no import of domController allowed here!  Must use emitter!
@@ -77,5 +77,8 @@ function updateProjectHandler(event) {
     emitter.emit("userSessionUpdated", getUserSessionClone());
 }
 
-// Reminders:
-// function to edit a task (or maybe method on task?)?
+emitter.on("request:updateTask", updateTaskHandler);
+function updateTaskHandler(event) {
+    updateTask(event);
+    emitter.emit("userSessionUpdated", getUserSessionClone());
+}
