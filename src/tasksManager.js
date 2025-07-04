@@ -42,6 +42,16 @@ export function getTasksByUserClone(user) {
     return structuredClone(taskList.filter(task => userProjectsIds.includes(task.linkedProjectId)));
 }
 
+export function updateTask(updatedTask) {
+    currentTask = taskList.find( task => task.id === updatedTask.id);
+    currentTask.title = updatedTask.title;
+    currentTask.description = updatedTask.title;
+    currentTask.dueDate = updatedTask.dueDate;
+    currentTask.priority = updatedTask.priority;
+    currentTask.isDone = updatedTask.isDone;
+    setStoredItem("taskList", taskList);
+}
+
 export function deleteTaskByTaskId(taskId) {
     taskList.splice(taskList.findIndex( task => task.id === taskId), 1);
     setStoredItem("taskList", taskList);

@@ -45,7 +45,7 @@ function logOutUserHandler() {
 
 emitter.on("request:addProject", addProjectHandler);
 function addProjectHandler(event) {
-    if (addProject(getLoggedInUser(), event.ProjectName))
+    if (addProject(getLoggedInUser(), event.projectName))
         emitter.emit("userSessionUpdated", getUserSessionClone());
     else
         emitter.emit("fail:addProject", {});

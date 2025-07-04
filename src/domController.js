@@ -38,7 +38,7 @@ emitter.emit("request:logInUser", {username: "Sarah", password: "pwd1"});
 
 emitter.emit("request:deregisterUser", {username: "Peter", password: "pwd2"})
 
-emitter.emit("request:addProject", {name: "Garden"});
+emitter.emit("request:addProject", {projectName: "Garden"});
 
 emitter.emit("request:addTask", {project: userSession.userProjects[0], title: "Test title", description: "Test description", dueDate: "20250202", priority:"high"});
 
