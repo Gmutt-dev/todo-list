@@ -4,6 +4,10 @@ import { getStoredItem, setStoredItem } from "./storageController";
 // Initialize:
 const taskList = [];
 taskList.push(...getStoredItem("taskList"));
+// Convert the date strings back to Date() objects:
+taskList.forEach( (task, index) => {
+    taskList[index].dueDate = new Date(task.dueDate);
+} )
 
 // Factory function to create a new task object
 export function createTask(linkedProject, title, description, dueDate, priority) {
