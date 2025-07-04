@@ -35,7 +35,7 @@ export function getProjectsByUserClone(user) {
 
 export function updateProject(updatedProject) {
     const currentProject = projectList.find( project => project.id === updateProject.id );
-    currentProject.name = updatedProject.name;
+    if (updatedProject.name) currentProject.name = updatedProject.name;
     setStoredItem("projectList", projectList);
 }
 
