@@ -6,22 +6,76 @@ import emitter from "./emitter";
 
 const appContainer = document.querySelector(".app-container");
 
+function drawDefaultApp() {
+    appContainer.classList.remove("logged-in");
+    appContainer.classList.add("default");
+
+    function drawDefaultHeaderContents() {
+        
+        const header = document.querySelector(".header");
+        header.textContent = "";
+        
+        const logoDiv = document.createElement("div");
+        logoDiv.classList.add("logo");
+        const logoText = document.createElement("H1");
+        logoText.textContent = "Just DO it!";
+        logoDiv.appendChild(logoText);
+        const logoSubText = document.createElement("p");
+        logoSubText.textContent = "The app that gets you from 'To Do' to 'Done!'";
+        logoDiv.appendChild(logoSubText);
+        header.appendChild(logoDiv);
+    
+        const loginButton = document.createElement("button");
+        loginButton.type = "button";
+        loginButton.classList.add("login-button");
+        loginButton.textContent = "Log in";
+        header.appendChild(loginButton);
+    
+        const registerButton = document.createElement("button");
+        registerButton.type = "button";
+        registerButton.classList.add("register-button");
+        registerButton.textContent = "Register";
+        header.appendChild(registerButton);
+    }
+
+    function drawDefaultMainSectionContents() {
+        const mainSection = document.querySelector(".main-section");
+        mainSection.textContent = "";
+        const para1 = document.createElement("p");
+        para1.textContent = "Welcome to the app that gets you from 'To Do' to 'Done'!";
+        mainSection.appendChild(para1);
+        const para2 = document.createElement("p");
+        para2.textContent = "Please log in or register a new user (see top right of page)";
+        mainSection.appendChild(para2);
+    }
+
+    drawDefaultHeaderContents();
+    drawDefaultMainSectionContents();
+}
+
 function initializeAppGrid() {
     const header = document.createElement("header");
     header.classList.add("header");
+    // const logoDiv = document.createElement("div");
+    // logoDiv.innerHTML = "Do <br> It!"
+    // header.appendChild(logoDiv);
+    appContainer.appendChild(header);
 
     const leftSidebar = document.createElement("section");
     leftSidebar.classList.add("left-sidebar");
+    appContainer.appendChild(leftSidebar);
 
     const mainSection = document.createElement("section");
     mainSection.classList.add("main-section");
-
-    appContainer.appendChild(header);
-    appContainer.appendChild(leftSidebar);
     appContainer.appendChild(mainSection);
-}
+
+    drawDefaultApp();
+
+}    
 
 initializeAppGrid();
+
+
 
 // TEMP - console testing
 // let userSession;

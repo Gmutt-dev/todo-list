@@ -58,8 +58,56 @@ table {
 
     display: grid;
     grid-template-columns: 300px 1fr;
+    grid-template-rows:max-content;
+
+    & > * {
+        margin: 10px 20px;
+    }
 
     & .header {
         grid-column: span 2;
+        height: 50px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        
+        & .logo {
+            margin-right: auto;
+        }
+
+        & button {
+            border: none;
+            background-color: inherit;
+
+        }
+
+        & button:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &.default {
+
+        & .header {
+
+            & .logo {
+                font-weight: bold;
+                font-size: 48px;
+
+                & p {
+                    display: none;
+                }
+            }
+        }
+        
+    }
+    
+    &.logged-in {
+        
+        & .header .logo p {
+            display: block;
+            font-size: 14px;
+            font-weight: normal;
+        }
     }
 }
