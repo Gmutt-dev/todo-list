@@ -51,10 +51,15 @@ table {
 
 .app-container {
     margin: auto;
-    background-color: lightgrey;
+    background-color: lightsteelblue;
     min-height: 100vh;
+    min-width: 500px;
     max-width: 1200px;
 
     display: grid;
     grid-template-columns: 300px 1fr;
+
+    & .header {
+        grid-column: span 2;
+    }
 }

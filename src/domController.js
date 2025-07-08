@@ -4,6 +4,24 @@ import "./styles.css";
 // NB therefore no import of appController allowed here!  Must use emitter!
 import emitter from "./emitter";
 
+const appContainer = document.querySelector(".app-container");
+
+function initializeAppGrid() {
+    const header = document.createElement("header");
+    header.classList.add("header");
+
+    const leftSidebar = document.createElement("section");
+    leftSidebar.classList.add("left-sidebar");
+
+    const mainSection = document.createElement("section");
+    mainSection.classList.add("main-section");
+
+    appContainer.appendChild(header);
+    appContainer.appendChild(leftSidebar);
+    appContainer.appendChild(mainSection);
+}
+
+initializeAppGrid();
 
 // TEMP - console testing
 // let userSession;
