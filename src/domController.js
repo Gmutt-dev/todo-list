@@ -42,7 +42,7 @@ function drawDefaultApp() {
         const mainSection = document.querySelector(".main-section");
         mainSection.textContent = "";
         const para1 = document.createElement("p");
-        para1.textContent = "Welcome to the app that gets you from 'To Do' to 'Done'!";
+        para1.textContent = "Welcome to the app that gets you from 'To Do' to 'Done!'";
         mainSection.appendChild(para1);
         const para2 = document.createElement("p");
         para2.textContent = "Please log in or register a new user (see top right of page)";

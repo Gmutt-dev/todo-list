@@ -73,6 +73,7 @@ table {
         
         & .logo {
             margin-right: auto;
+            font-weight: bold;
         }
 
         & button {
@@ -91,7 +92,6 @@ table {
         & .header {
 
             & .logo {
-                font-weight: bold;
                 font-size: 48px;
 
                 & p {
@@ -99,14 +99,28 @@ table {
                 }
             }
         }
+
+        & .main-section {
+
+            & p {
+                margin-bottom: 20px;
+            }
+        }
         
     }
     
     &.logged-in {
+
+        & .header {
+
+            & .logo {
+                font-size: 36px;
+            }
+        }
         
         & .header .logo p {
             display: block;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: normal;
         }
     }
