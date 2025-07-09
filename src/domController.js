@@ -3,6 +3,7 @@ import "./styles.css";
 // Import the emitter object for DOM to appController controller communication via events
 // NB therefore no import of appController allowed here!  Must use emitter!
 import emitter from "./emitter";
+import { createHTMLElement } from "./DOM-fns";
 
 const appContainer = document.querySelector(".app-container");
 
@@ -11,24 +12,28 @@ function drawDefaultApp() {
     appContainer.classList.add("default");
 
     function drawDefaultHeaderContents() {
-        
+
         const header = document.querySelector(".header");
         header.textContent = "";
         
-        const logoDiv = document.createElement("div");
-        logoDiv.classList.add("logo");
-        const logoText = document.createElement("h1");
-        logoText.textContent = "Just DO it!";
+        const logoDiv = createHTMLElement("div", {
+            className: "logo"
+        })
+        const logoText = createHTMLElement("h1", {
+            textContent: "Just DO it!"
+        })
         logoDiv.appendChild(logoText);
-        const logoSubText = document.createElement("p");
-        logoSubText.textContent = "The app that gets you from 'To Do' to 'Done!'";
+        const logoSubText = createHTMLElement("p", {
+            textContent: "The app that gets you from 'To Do' to 'Done!'"
+        })
         logoDiv.appendChild(logoSubText);
         header.appendChild(logoDiv);
-    
-        const loginButton = document.createElement("button");
-        loginButton.type = "button";
-        loginButton.classList.add("login-button");
-        loginButton.textContent = "Log in";
+        
+        const loginButton = createHTMLElement("button", {
+            type: "button",
+            className: "login-button",
+            textContent: "Log in"
+        })
         loginButton.addEventListener("click", loginButtonHandler)
         header.appendChild(loginButton);
 
@@ -37,46 +42,62 @@ function drawDefaultApp() {
 
             modal.classList.add("login-form");
             
-            const title = document.createElement("h2");
-            title.textContent = "Log in request form";
-            modal.appendChild(title);
+            modal.appendChild(
+                createHTMLElement("h2", {
+                    textContent: "Log in request form"
+                })
+            );
 
-            const para1 = document.createElement("p");
-            para1.textContent = "Please enter your username and password and click submit.";
-            modal.appendChild(para1);
+            modal.appendChild(
+                createHTMLElement("p", {
+                    textContent: "Please enter your username and password and click submit."
+                })
+            );
 
-            const warningPara = document.createElement("p");
-            warningPara.textContent = "IMPORTANT! - passwords and user content is not protected/encrypted.  However, all data remains ONLY on your device.  Please don't include any sensitive information anywhere in the app."
-            modal.appendChild(warningPara);
+            modal.appendChild(
+                createHTMLElement("p", {
+                    textContent: "IMPORTANT! - passwords and user content is not protected/encrypted.  However, all data remains ONLY on your device.  Please don't include any sensitive information anywhere in the app."
+                })
+            );
 
-            const form = document.createElement("form");
-            form.method = "dialog";
+            const form = createHTMLElement("form", {
+                method: "dialog"
+            })
             
-            const usernameLabel = document.createElement("label");
-            usernameLabel.for = "username-input";
-            usernameLabel.textContent = "Username:"
-            form.appendChild(usernameLabel);
+            form.appendChild(
+                createHTMLElement("label", {
+                    htmlFor: "username-input",
+                    textContent: "Username"
+                })
+            );
 
-            const usernameInput = document.createElement("input");
-            usernameInput.type = "text";
-            usernameInput.id = "username-input";
-            usernameInput.required = "true";
-            form.appendChild(usernameInput);
+            form.appendChild(
+                createHTMLElement("input", {
+                    type: "text:",
+                    id: "username-input",
+                    required: true
+                })
+            );
 
-            const passwordLabel = document.createElement("label");
-            passwordLabel.for = "password-input";
-            passwordLabel.textContent = "Password:";
-            form.appendChild(passwordLabel);
+            form.appendChild(
+                createHTMLElement("label", {
+                    htmlFor: "password-input",
+                    textContent: "Password"
+                })
+            );
 
-            const passwordInput = document.createElement("input");
-            passwordInput.type = "password";
-            passwordInput.id = "password-input";
-            passwordInput.required = "true";
-            form.appendChild(passwordInput);
+            form.appendChild(
+                createHTMLElement("input", {
+                    type: "password",
+                    id: "password-input",
+                    required: true
+                })
+            );
             
-            const submitButton = document.createElement("button");
-            submitButton.type = "button";
-            submitButton.textContent = "Submit";
+            const submitButton = createHTMLElement("button", {
+                type: loginButton,
+                textContent: "Submit"
+            })
             submitButton.addEventListener("click", (e) => {
                 emitter.emit("request:logInUser", {
                     username: usernameInput.value,
@@ -88,19 +109,22 @@ function drawDefaultApp() {
             })
             form.appendChild(submitButton);
             
-            const resetButton = document.createElement("button");
-            resetButton.type = "reset";
-            resetButton.textContent = "Reset";
+            const resetButton = createHTMLElement("button", {
+                type: "reset",
+                textContent: "Reset"
+            })
             form.appendChild(resetButton);
             
-            const cancelButton = document.createElement("button");
-            cancelButton.type = "button";
-            cancelButton.textContent = "Cancel";
+            const cancelButton = createHTMLElement("button", {
+                type: "button",
+                textContent: "Cancel"
+            });
             cancelButton.addEventListener("click", (e) => {
                 modal.close();
                 modal.classList.remove("login-form");
                 modal.textContent = "";
             })
+            
             form.appendChild(cancelButton);
             
             modal.appendChild(form);
@@ -108,22 +132,28 @@ function drawDefaultApp() {
             modal.showModal();
         }
     
-        const registerButton = document.createElement("button");
-        registerButton.type = "button";
-        registerButton.classList.add("register-button");
-        registerButton.textContent = "Register";
+        const registerButton = createHTMLElement("button", {
+            type: "button",
+            className: "register-button",
+            textContent: "Register"
+        })
         header.appendChild(registerButton);
     }
 
     function drawDefaultMainSectionContents() {
         const mainSection = document.querySelector(".main-section");
         mainSection.textContent = "";
-        const para1 = document.createElement("p");
-        para1.textContent = "Welcome to the app that gets you from 'To Do' to 'Done!'";
-        mainSection.appendChild(para1);
-        const para2 = document.createElement("p");
-        para2.textContent = "Please log in or register a new user (see top right of page)";
-        mainSection.appendChild(para2);
+
+        mainSection.appendChild(
+            createHTMLElement("p", {
+            textContent: "Welcome to the app that gets you from 'To Do' to 'Done!'"
+        })
+        );
+        mainSection.appendChild(
+            createHTMLElement("p", {
+                textContent: "Please log in or register a new user (see top right of page)"
+            })
+        );
     }
 
     drawDefaultHeaderContents();
