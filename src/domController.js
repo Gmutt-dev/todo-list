@@ -6,6 +6,7 @@ import emitter from "./emitter";
 import { createHTMLElement } from "./DOM-fns";
 
 const appContainer = document.querySelector(".app-container");
+let userSessionClone = undefined;
 
 function drawDefaultApp() {
     appContainer.classList.remove("logged-in");
@@ -71,13 +72,12 @@ function drawDefaultApp() {
                 })
             );
 
-            form.appendChild(
-                createHTMLElement("input", {
-                    type: "text:",
-                    id: "username-input",
-                    required: true
-                })
-            );
+            const usernameInput = createHTMLElement("input", {
+                type: "text:",
+                id: "username-input",
+                required: true
+            })
+            form.appendChild(usernameInput);
 
             form.appendChild(
                 createHTMLElement("label", {
@@ -86,16 +86,15 @@ function drawDefaultApp() {
                 })
             );
 
-            form.appendChild(
-                createHTMLElement("input", {
-                    type: "password",
-                    id: "password-input",
-                    required: true
-                })
-            );
+            const passwordInput = createHTMLElement("input", {
+                type: "password",
+                id: "password-input",
+                required: true
+            })
+            form.appendChild(passwordInput);
             
             const submitButton = createHTMLElement("button", {
-                type: loginButton,
+                type: "button",
                 textContent: "Submit"
             })
             submitButton.addEventListener("click", (e) => {
@@ -124,7 +123,7 @@ function drawDefaultApp() {
                 modal.classList.remove("login-form");
                 modal.textContent = "";
             })
-            
+
             form.appendChild(cancelButton);
             
             modal.appendChild(form);
@@ -146,8 +145,8 @@ function drawDefaultApp() {
 
         mainSection.appendChild(
             createHTMLElement("p", {
-            textContent: "Welcome to the app that gets you from 'To Do' to 'Done!'"
-        })
+                textContent: "Welcome to the app that gets you from 'To Do' to 'Done!'"
+            })
         );
         mainSection.appendChild(
             createHTMLElement("p", {
@@ -163,9 +162,6 @@ function drawDefaultApp() {
 function initializeAppGrid() {
     const header = document.createElement("header");
     header.classList.add("header");
-    // const logoDiv = document.createElement("div");
-    // logoDiv.innerHTML = "Do <br> It!"
-    // header.appendChild(logoDiv);
     appContainer.appendChild(header);
 
     const leftSidebar = document.createElement("section");
@@ -182,6 +178,63 @@ function initializeAppGrid() {
 
 initializeAppGrid();
 
+emitter.on("userSessionUpdated", (e) => {
+
+    userSessionClone = e;
+    
+    if (userSessionClone === undefined) {
+        drawDefaultApp();
+    }
+    else {
+            function drawUserSession(userSession) {
+                drawUserHeader(userSession);
+                // drawProjects(userSession);
+                // drawTasks(userSession);
+            }
+            drawUserSession(userSessionClone);
+
+            function  drawUserHeader(userSession) {
+                const header = document.querySelector(".header");
+                // Remove all the logo's siblings
+                header.querySelectorAll(".logo ~ *").forEach( element => element.remove());
+                //draw user details
+                const userDetailDiv = createHTMLElement("div", {
+                    className: "user-detail-container",
+                });
+
+                userDetailDiv.appendChild(
+                    createHTMLElement("p", {
+                        textContent: "Logged in user:"
+                    })
+                );
+
+                userDetailDiv.appendChild(
+                    createHTMLElement("p", {
+                        textContent: `${userSession.loggedInUser.username}`
+                    })
+                );
+
+                const logoutButton = createHTMLElement("button", {
+                    type: "button",
+                    textContent: "Log out"
+                });
+                logoutButton.addEventListener("click", logoutButtonHandler);
+                userDetailDiv.appendChild(logoutButton);
+
+                function logoutButtonHandler(e) {
+                    // TODO
+                }
+                    
+                header.appendChild(userDetailDiv);
+
+            }
+            // drawUserHeader(userSessionClone);
+            // drawProjects()
+            // drawTasks()
+            // }
+        }
+});
+
 
 
 // TEMP - console testing
@@ -191,11 +244,7 @@ initializeAppGrid();
 // emitter.on("fail:newUserRegistered", () => {console.log("Registration failed")});
 // emitter.on("success:userDeregistered", () => console.log("User successfully deregistered"));
 // emitter.on("fail:userDeregistered", () => console.log("Failed to deregister user"));
-// emitter.on("userSessionUpdated", (e) => {
-//     console.log("Successfully logged in:");
-//     const userSession = e;
-//     console.log(e);
-// });
+
 // emitter.on("fail:userLoggedIn", () => console.log("Failed to log in. Please try again"));
 // // emitter.on("success:userLoggedOut", () => {
 // //     console.log("Successfully logged out the user");
