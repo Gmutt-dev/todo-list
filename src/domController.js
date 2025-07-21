@@ -89,11 +89,154 @@ function initializeAppGrid() {
     mainSection.classList.add("main-section");
     appContainer.appendChild(mainSection);
 
-    drawDefaultApp();
-
 }    
 
 initializeAppGrid();
+drawDefaultApp();
+
+function  drawUserHeader(userSession) {
+    const header = document.querySelector(".header");
+    // Remove all the logo's siblings
+    header.querySelectorAll(".logo ~ *").forEach( element => element.remove());
+    //draw user details
+    const userDetailDiv = createHTMLElement("div", {
+        className: "user-detail-container",
+    });
+
+    userDetailDiv.appendChild(
+        createHTMLElement("p", {
+            textContent: "Logged in user:"
+        })
+    );
+
+    userDetailDiv.appendChild(
+        createHTMLElement("p", {
+            textContent: `${userSession.loggedInUser.username}`
+        })
+    );
+
+    const logoutButton = createHTMLElement("button", {
+        type: "button",
+        textContent: "Log out"
+    });
+    logoutButton.addEventListener("click", logoutButtonHandler);
+    userDetailDiv.appendChild(logoutButton);
+
+    header.appendChild(userDetailDiv);
+}
+
+function drawUserProjects(userSession) {
+    const leftSidebar = document.querySelector(".left-sidebar");
+    leftSidebar.textContent = "";
+    const projectsList = createHTMLElement("ol", {
+        textContent: "Projects:",
+        className: "projects-list"
+    });
+    leftSidebar.appendChild(projectsList);
+    userSession.userProjects
+        .map(toHTMLElement)
+        .forEach(element => projectsList.appendChild(element));
+    function toHTMLElement(project) {
+        const projectButton = createHTMLElement("button", {
+            type: "button",
+            textContent: project.name,
+            className: "project"
+        });
+        projectButton.dataset.id = project.id;
+        projectButton.dataset.linkedUserId = project.linkedUserId;
+        
+        const li = createHTMLElement("li");
+        li.appendChild(projectButton);
+        return li;
+    }
+}
+
+function drawTasksHeader() {
+    // create and draw div.tasksHeader->p
+    const div = createHTMLElement("div", {
+        className: "task-header"
+    })
+    const p = createHTMLElement("p", {
+        textContent: "Tasks:"
+    })
+    div.appendChild(p);
+    mainSection.appendChild(div);
+}
+
+function drawUserTasks(userSession) {
+    // create and draw div with tasks as children
+    const tasksContainer = createHTMLElement("div", {
+        className: "tasks-container"
+    });
+    mainSection.appendChild(tasksContainer);
+    userSession.userTasks.map(toHTMLElement)
+        .forEach(element => tasksContainer.appendChild(element));
+    
+        function toHTMLElement(task) {
+        const taskCard = createHTMLElement("div", {
+            className: "task-card"
+        })
+        taskCard.dataset.id = task.id;
+        taskCard.dataset.linkedProjectId = task.linkedProjectId;
+
+        taskCard.appendChild(
+            createHTMLElement("h5", {
+                textContent: task.title
+            })
+        );
+        taskCard.appendChild(
+            createHTMLElement("p", {
+                textContent: task.description,
+                className: "not-displayed"
+            })
+        );
+        taskCard.appendChild(
+            createHTMLElement("p", {
+                textContent: `Due date: ${task.dueDate}`
+            })
+        );
+        taskCard.appendChild(
+            createHTMLElement("p", {
+                textContent: `Priority: ${task.priority}`,
+                className: "not-displayed"
+            })
+        );
+        taskCard.appendChild(
+            createHTMLElement("label", {
+                htmlFor: "is-done",
+                className: "not-displayed",
+                textContent: "Done?"
+            })
+        );
+        taskCard.appendChild(
+            createHTMLElement("input", {
+                type: "checkbox",
+                id: "is-done",
+                className: "not-displayed",
+                value: task.isDone
+            })
+        );
+
+        return taskCard;
+    
+        }
+}
+
+function drawTasksSection(userSession) {
+    
+    const mainSection = document.querySelector(".main-section");
+    mainSection.textContent = "";
+    
+drawTasksHeader();
+drawUserTasks(userSession);
+
+}
+
+function drawUserSession(userSession) {
+    drawUserHeader(userSession);
+    drawUserProjects(userSession);
+    drawTasksSection(userSession);
+}
 
 emitter.on("userSessionUpdated", (e) => {
 
@@ -106,152 +249,8 @@ emitter.on("userSessionUpdated", (e) => {
         appContainer.classList.add("logged-in");
         appContainer.classList.remove("default");
 
-        function drawUserSession(userSession) {
-            drawUserHeader(userSession);
-            drawUserProjects(userSession);
-            drawTasksSection(userSession);
-        }
-        drawUserSession(userSessionClone);
 
-        function  drawUserHeader(userSession) {
-            const header = document.querySelector(".header");
-            // Remove all the logo's siblings
-            header.querySelectorAll(".logo ~ *").forEach( element => element.remove());
-            //draw user details
-            const userDetailDiv = createHTMLElement("div", {
-                className: "user-detail-container",
-            });
-
-            userDetailDiv.appendChild(
-                createHTMLElement("p", {
-                    textContent: "Logged in user:"
-                })
-            );
-
-            userDetailDiv.appendChild(
-                createHTMLElement("p", {
-                    textContent: `${userSession.loggedInUser.username}`
-                })
-            );
-
-            const logoutButton = createHTMLElement("button", {
-                type: "button",
-                textContent: "Log out"
-            });
-            logoutButton.addEventListener("click", logoutButtonHandler);
-            userDetailDiv.appendChild(logoutButton);
-
-
-                
-            header.appendChild(userDetailDiv);
-        }
-
-        function drawUserProjects(userSession) {
-            const leftSidebar = document.querySelector(".left-sidebar");
-            leftSidebar.textContent = "";
-            const projectsList = createHTMLElement("ol", {
-                textContent: "Projects:",
-                className: "projects-list"
-            });
-            leftSidebar.appendChild(projectsList);
-            userSession.userProjects
-                .map(toHTMLElement)
-                .forEach(element => projectsList.appendChild(element));
-            function toHTMLElement(project) {
-                const projectButton = createHTMLElement("button", {
-                    type: "button",
-                    textContent: project.name,
-                    className: "project"
-                });
-                projectButton.dataset.id = project.id;
-                projectButton.dataset.linkedUserId = project.linkedUserId;
-                
-                const li = createHTMLElement("li");
-                li.appendChild(projectButton);
-                return li;
-            }
-        }
-
-        function drawTasksSection(userSession) {
-            
-            const mainSection = document.querySelector(".main-section");
-            mainSection.textContent = "";
-            
-            function drawTasksHeader() {
-                // create and draw div.tasksHeader->p
-                const div = createHTMLElement("div", {
-                    className: "task-header"
-                })
-                const p = createHTMLElement("p", {
-                    textContent: "Tasks:"
-                })
-                div.appendChild(p);
-                mainSection.appendChild(div);
-            }
-    
-            function drawUserTasks(userSession) {
-                // create and draw div with tasks as children
-                const tasksContainer = createHTMLElement("div", {
-                    className: "tasks-container"
-                });
-                mainSection.appendChild(tasksContainer);
-                userSession.userTasks.map(toHTMLElement)
-                    .forEach(element => tasksContainer.appendChild(element));
-                
-                    function toHTMLElement(task) {
-                    const taskCard = createHTMLElement("div", {
-                        className: "task-card"
-                    })
-                    taskCard.dataset.id = task.id;
-                    taskCard.dataset.linkedProjectId = task.linkedProjectId;
-
-                    taskCard.appendChild(
-                        createHTMLElement("h5", {
-                            textContent: task.title
-                        })
-                    );
-                    taskCard.appendChild(
-                        createHTMLElement("p", {
-                            textContent: task.description,
-                            className: "not-displayed"
-                        })
-                    );
-                    taskCard.appendChild(
-                        createHTMLElement("p", {
-                            textContent: `Due date: ${task.dueDate}`
-                        })
-                    );
-                    taskCard.appendChild(
-                        createHTMLElement("p", {
-                            textContent: `Priority: ${task.priority}`,
-                            className: "not-displayed"
-                        })
-                    );
-                    taskCard.appendChild(
-                        createHTMLElement("label", {
-                            htmlFor: "is-done",
-                            className: "not-displayed",
-                            textContent: "Done?"
-                        })
-                    );
-                    taskCard.appendChild(
-                        createHTMLElement("input", {
-                            type: "checkbox",
-                            id: "is-done",
-                            className: "not-displayed",
-                            value: task.isDone
-                        })
-                    );
-
-                    return taskCard;
-                
-                    }
-            }
-        
-        drawTasksHeader();
-        drawUserTasks(userSession);
-
-        }
+    drawUserSession(userSessionClone);
     }
     });
 
