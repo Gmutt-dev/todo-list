@@ -152,6 +152,7 @@ function drawUserProjects(userSession) {
 }
 
 function drawTasksHeader() {
+    const mainSection = document.querySelector(".main-section");
     // create and draw div.tasksHeader->p
     const div = createHTMLElement("div", {
         className: "task-header"
@@ -164,6 +165,7 @@ function drawTasksHeader() {
 }
 
 function drawUserTasks(userSession) {
+    const mainSection = document.querySelector(".main-section");
     // create and draw div with tasks as children
     const tasksContainer = createHTMLElement("div", {
         className: "tasks-container"
@@ -238,6 +240,12 @@ function drawUserSession(userSession) {
     drawTasksSection(userSession);
 }
 
+function resetModal() {
+    const modal = document.querySelector(".modal-container");
+    modal.textContent = "";
+    modal.close();
+}
+
 emitter.on("userSessionUpdated", (e) => {
 
     userSessionClone = e;
@@ -254,6 +262,28 @@ emitter.on("userSessionUpdated", (e) => {
     }
     });
 
+emitter.on("fail:userLoggedIn", failureHandler);
+emitter.on("fail:newUserRegistered", failureHandler);
+emitter.on("fail:userLoggedOut", failureHandler);
+emitter.on("fail:userDeregistered", failureHandler);
+emitter.on("fail:addProject", failureHandler);
+emitter.on("fail:addTask", failureHandler);
+
+function failureHandler(e) {
+    const modal = document.querySelector(".modal-container");
+    modal.appendChild(
+        createHTMLElement("p", {
+            textContent: `Error, please try again. ${e.errorMessage ? e.errorMessage : ""}`
+        })
+    );
+    const closeButton = createHTMLElement("button", {
+        textContent: "close"
+    });
+    console.log("test")
+    closeButton.addEventListener("click", resetModal)
+    modal.appendChild(closeButton);
+    modal.showModal();
+}
 
 
 // TEMP - console testing

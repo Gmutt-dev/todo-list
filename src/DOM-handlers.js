@@ -61,13 +61,15 @@ export function loginButtonHandler(e) {
         textContent: "Submit"
     })
     submitButton.addEventListener("click", (e) => {
-        emitter.emit("request:logInUser", {
-            username: usernameInput.value,
-            password: passwordInput.value
-        })
+        const username = usernameInput.value;
+        const password = passwordInput.value;
         modal.classList.remove("login-form");
         modal.close();
         modal.textContent = "";
+        emitter.emit("request:logInUser", {
+            username,
+            password
+        })
     })
     form.appendChild(submitButton);
     
@@ -155,13 +157,15 @@ export function registerButtonHandler(e) {
         textContent: "Submit"
     })
     submitButton.addEventListener("click", (e) => {
-        emitter.emit("request:registerNewUser", {
-            username: usernameInput.value,
-            password: passwordInput.value
-        })
+        const username = usernameInput.value;
+        const password = passwordInput.value;
         modal.classList.remove("register-form");
         modal.close();
         modal.textContent = "";
+        emitter.emit("request:registerNewUser", {
+            username,
+            password
+        })
     })
     form.appendChild(submitButton);
     

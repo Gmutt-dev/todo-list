@@ -17,9 +17,9 @@ userSessionUpdated -> userSessionClone: {
         userTasks
     }
 
-fail:newUserRegistered -> {}
-fail:userLoggedIn -> {}
-fail:userLoggedOut -> {}
-fail:userDeregistered -> {}
-fail:addProject -> {}
-fail:addTask -> {}
+fail:newUserRegistered -> {?errorMessage}
+fail:userLoggedIn -> {?errorMessage}
+fail:userLoggedOut -> {?errorMessage}
+fail:userDeregistered -> {?errorMessage}
+fail:addProject -> {?errorMessage}
+fail:addTask -> {?errorMessage}
