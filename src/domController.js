@@ -1,5 +1,8 @@
 import "./styles.css";
 
+import iconEdit from "./icons/edit.svg";
+import iconDelete from "./icons/delete.svg";
+
 // Import the emitter object for DOM to appController controller communication via events
 // NB therefore no import of appController allowed here!  Must use emitter!
 import emitter from "./emitter";
@@ -8,6 +11,18 @@ import { loginButtonHandler, registerButtonHandler, logoutButtonHandler } from "
 
 const appContainer = document.querySelector(".app-container");
 let userSessionClone = undefined;
+let userSelection = {
+    selectedProjectId: undefined,
+    selectedTaskId: undefined
+}
+
+function resetUserData() {
+    userSessionClone = undefined;
+    userSelection = {
+    selectedProjectId: undefined,
+    selectedTaskId: undefined
+}
+}
 
 function drawDefaultApp() {
     appContainer.classList.remove("logged-in");
@@ -140,13 +155,35 @@ function drawUserProjects(userSession) {
         const projectButton = createHTMLElement("button", {
             type: "button",
             textContent: project.name,
-            className: "project"
         });
         projectButton.dataset.id = project.id;
         projectButton.dataset.linkedUserId = project.linkedUserId;
+        projectButton.addEventListener("click", e => {
+            userSelection.selectedProjectId = project.id;
+            projectsList.querySelectorAll(".project").forEach(element => element.classList.remove("user-selected"));
+            projectButton.parentElement.classList.add("user-selected");
+            drawTasksSection(userSession);
+        })
         
-        const li = createHTMLElement("li");
+        const editButton = createHTMLElement("button", {
+            textContent: "",
+            type: "button",
+        })
+        editButton.style.backgroundImage = `url(${iconEdit})`;
+
+        const deleteButton = createHTMLElement("button", {
+            textContent: "",
+            type: "button",
+        })
+        deleteButton.style.backgroundImage = `url(${iconDelete})`;
+        
+        const li = createHTMLElement("li", {
+            className: "project"
+        });
         li.appendChild(projectButton);
+        li.appendChild(editButton);
+        li.appendChild(deleteButton);
+        
         return li;
     }
 }
@@ -160,7 +197,7 @@ function drawTasksHeader() {
     const p = createHTMLElement("p", {
         textContent: "Tasks:"
     })
-    div.appendChild(p);
+    if (userSelection.selectedProjectId) div.appendChild(p);
     mainSection.appendChild(div);
 }
 
@@ -171,7 +208,10 @@ function drawUserTasks(userSession) {
         className: "tasks-container"
     });
     mainSection.appendChild(tasksContainer);
-    userSession.userTasks.map(toHTMLElement)
+
+    userSession.userTasks
+        .filter( task => userSelection.selectedProjectId ? task.linkedProjectId === userSelection.selectedProjectId : false )
+        .map(toHTMLElement)
         .forEach(element => tasksContainer.appendChild(element));
     
         function toHTMLElement(task) {
@@ -257,7 +297,6 @@ emitter.on("userSessionUpdated", (e) => {
         appContainer.classList.add("logged-in");
         appContainer.classList.remove("default");
 
-
     drawUserSession(userSessionClone);
     }
     });
@@ -279,11 +318,12 @@ function failureHandler(e) {
     const closeButton = createHTMLElement("button", {
         textContent: "close"
     });
-    console.log("test")
     closeButton.addEventListener("click", resetModal)
     modal.appendChild(closeButton);
     modal.showModal();
 }
+
+
 
 
 // TEMP - console testing

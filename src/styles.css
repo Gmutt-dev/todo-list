@@ -134,6 +134,41 @@ table {
             font-weight: normal;
         }
 
+        & .left-sidebar {
+
+            & .project {
+                display: flex;
+                gap: 5px;
+
+                padding: 4px;
+
+                &.user-selected {
+                    background-color: red;
+                }
+                
+                & button {
+                    font-size: 1rem;
+                    background-color: transparent;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                    border: none;
+                    
+                    &:first-child {
+                        margin-right: auto;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                        
+                    }
+                    &:not(:first-child) {
+                        width: 20px;
+                    }
+                }
+            }
+        }
+
         & .main-section {
             display: grid;
             align-content: start;
