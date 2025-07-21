@@ -139,6 +139,11 @@ function drawDefaultApp() {
         header.appendChild(registerButton);
     }
 
+    function drawDefaultLeftSidebar() {
+        const leftSidebar = document.querySelector(".left-sidebar");
+        leftSidebar.textContent = "";
+    }
+
     function drawDefaultMainSectionContents() {
         const mainSection = document.querySelector(".main-section");
         mainSection.textContent = "";
@@ -156,6 +161,7 @@ function drawDefaultApp() {
     }
 
     drawDefaultHeaderContents();
+    drawDefaultLeftSidebar();
     drawDefaultMainSectionContents();
 }
 
@@ -187,6 +193,7 @@ emitter.on("userSessionUpdated", (e) => {
     }
     else {      
         appContainer.classList.add("logged-in");
+        appContainer.classList.remove("default");
 
         function drawUserSession(userSession) {
             drawUserHeader(userSession);
@@ -224,8 +231,8 @@ emitter.on("userSessionUpdated", (e) => {
             userDetailDiv.appendChild(logoutButton);
 
             function logoutButtonHandler(e) {
-                // TODO
-                // change appcontainer .logged-in to .default
+                userSessionClone = undefined;
+                drawDefaultApp();
             }
                 
             header.appendChild(userDetailDiv);
