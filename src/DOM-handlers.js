@@ -196,3 +196,10 @@ export function logoutButtonHandler(e) {
     userSessionClone = undefined;
     drawDefaultApp();
 }
+
+export function addProjectButtonHandler(e) {
+    const projectsList = document.querySelector(".projects-list");
+    const popup = projectsList.querySelector("form");
+    popup.querySelector("input").value = "";
+    popup.classList.toggle("not-displayed");
+}

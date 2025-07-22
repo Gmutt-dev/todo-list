@@ -2,12 +2,15 @@ import "./styles.css";
 
 import iconEdit from "./icons/edit.svg";
 import iconDelete from "./icons/delete.svg";
+import iconAdd from "./icons/add.svg";
+import iconCheck from "./icons/check.svg";
+import iconCancel from "./icons/cancel.svg";
 
 // Import the emitter object for DOM to appController controller communication via events
 // NB therefore no import of appController allowed here!  Must use emitter!
 import emitter from "./emitter";
 import { createHTMLElement } from "./DOM-fns";
-import { loginButtonHandler, registerButtonHandler, logoutButtonHandler } from "./DOM-handlers";
+import { loginButtonHandler, registerButtonHandler, logoutButtonHandler, addProjectButtonHandler } from "./DOM-handlers";
 
 const appContainer = document.querySelector(".app-container");
 let userSessionClone = undefined;
@@ -109,6 +112,14 @@ function initializeAppGrid() {
 initializeAppGrid();
 drawDefaultApp();
 
+// Event listener on document to close all pop-ups when clicing outside of the pop-ups
+// document.addEventListener("click", e => {
+//     const popups = document.querySelectorAll(".pop-up");
+//     popups.forEach(popup => {
+//         if (!popup.parentElement.contains(e.target)) popup.classList.add("not-displayed");
+//     })
+// })
+
 function  drawUserHeader(userSession) {
     const header = document.querySelector(".header");
     // Remove all the logo's siblings
@@ -147,17 +158,64 @@ function drawUserProjects(userSession) {
         textContent: "Projects:",
         className: "projects-list"
     });
+    const addProjectButton = createHTMLElement("button", {
+        type: "button",
+        textContent: ""
+    });
+    addProjectButton.style.backgroundImage = `url(${iconAdd})`;
+    addProjectButton.textContent = "new project...";
+    addProjectButton.addEventListener("click", addProjectButtonHandler);
+    projectsList.appendChild(addProjectButton);
+
+    const newProjectForm = createHTMLElement("form", {
+        action: "",
+        method: "get",
+        classList: "not-displayed"
+    })
+
+    const newProjectInput = createHTMLElement("input", {
+        type: "text",
+        id: "new-project-input",
+        required: true,
+        placeholder: "enter name"
+    });
+    newProjectForm.appendChild(newProjectInput);
+
+    const newProjectSubmitButton = createHTMLElement("button", {
+        type: "button",
+        textContent: ""
+    });
+    newProjectSubmitButton.style.backgroundImage =`url(${iconCheck})`;
+    newProjectSubmitButton.addEventListener("click", e => {
+        emitter.emit("request:addProject", {
+            projectName: newProjectInput.value
+        });
+    });
+
+    newProjectForm.appendChild(newProjectSubmitButton);
+    
+    // cancel button inline, with handler
+    const newProjectCancelButton = createHTMLElement("button", {
+        type: "button",
+        textContent: ""
+    });
+    newProjectCancelButton.style.backgroundImage = `url(${iconCancel})`;
+    newProjectCancelButton.addEventListener("click", addProjectButtonHandler);
+    newProjectForm.appendChild(newProjectCancelButton);
+
+    // append form to list of projects
+    projectsList.appendChild(newProjectForm);
+
     leftSidebar.appendChild(projectsList);
     userSession.userProjects
         .map(toHTMLElement)
         .forEach(element => projectsList.appendChild(element));
+
     function toHTMLElement(project) {
         const projectButton = createHTMLElement("button", {
             type: "button",
             textContent: project.name,
         });
-        projectButton.dataset.id = project.id;
-        projectButton.dataset.linkedUserId = project.linkedUserId;
         projectButton.addEventListener("click", e => {
             userSelection.selectedProjectId = project.id;
             projectsList.querySelectorAll(".project").forEach(element => element.classList.remove("user-selected"));
@@ -170,19 +228,28 @@ function drawUserProjects(userSession) {
             type: "button",
         })
         editButton.style.backgroundImage = `url(${iconEdit})`;
-
+        editButton.addEventListener("click", e => {});
+        
         const deleteButton = createHTMLElement("button", {
             textContent: "",
             type: "button",
         })
         deleteButton.style.backgroundImage = `url(${iconDelete})`;
+        deleteButton.addEventListener("click", e => {
+            //TODO: Create modal for confirmation first
+            emitter.emit("request:deleteProject", {projectId: e.target.parentElement.dataset.id})
+        });
         
         const li = createHTMLElement("li", {
             className: "project"
         });
+        li.dataset.id = project.id;
+        if (userSelection.selectedProjectId === li.dataset.id) li.classList.add("user-selected");
+        li.dataset.linkedUserId = project.linkedUserId;
         li.appendChild(projectButton);
         li.appendChild(editButton);
         li.appendChild(deleteButton);
+
         
         return li;
     }

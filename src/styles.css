@@ -71,7 +71,7 @@ table {
     align-content: start;
 
     & > * {
-        margin: 10px 20px;
+        margin: 10px 15px;
     }
 
     & .header {
@@ -136,37 +136,66 @@ table {
 
         & .left-sidebar {
 
-            & .project {
-                display: flex;
+            & button {
+                font-size: 1rem;
+                background-color: transparent;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                border: none;
+            }
+
+            & .projects-list {
+                display: grid;
                 gap: 5px;
-
-                padding: 4px;
-
-                &.user-selected {
-                    background-color: red;
-                }
                 
-                & button {
+                & > button:first-child {
+                    text-align: end;
                     font-size: 1rem;
-                    background-color: transparent;
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    background-size: contain;
-                    border: none;
-                    
-                    &:first-child {
-                        margin-right: auto;
+                    height: 30px;
+                    background-position: left;
+                    background-origin: content-box;
+                }
 
-                        &:hover {
-                            text-decoration: underline;
-                        }
-                        
+                & form:not(.not-displayed) {
+                    display: flex;
+                    gap: 5px;
+
+                    & input {
+                        width: 90px;
                     }
-                    &:not(:first-child) {
+
+                    & button {
                         width: 20px;
                     }
                 }
+                
+                & .project {
+                    display: flex;
+                    gap: 5px;
+    
+                    &.user-selected {
+                        background-color: red;
+                    }
+                    
+                    & button {
+                        
+                        &:first-child {
+                            margin-right: auto;
+    
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                            
+                        }
+                        &:not(:first-child) {
+                            width: 20px;
+                        }
+                    }
+                }
             }
+
+
         }
 
         & .main-section {
