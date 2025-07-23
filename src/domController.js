@@ -279,7 +279,9 @@ function drawTasksHeader() {
     const p = createHTMLElement("p", {
         textContent: "Tasks:"
     })
-    if (userSelection.selectedProjectId) div.appendChild(p);
+    div.appendChild(p);
+    if (userSelection.selectedProjectId) p.textContent = "Tasks:";
+        else p.textContent = "Please select a project from the left bar, to show related tasks";
     mainSection.appendChild(div);
 }
 
@@ -311,7 +313,7 @@ function drawUserTasks(userSession) {
         taskCard.appendChild(
             createHTMLElement("p", {
                 textContent: task.description,
-                className: "not-displayed"
+                className: "displayable not-displayed"
             })
         );
         taskCard.appendChild(
@@ -322,13 +324,13 @@ function drawUserTasks(userSession) {
         taskCard.appendChild(
             createHTMLElement("p", {
                 textContent: `Priority: ${task.priority}`,
-                className: "not-displayed"
+                className: "displayable not-displayed"
             })
         );
         taskCard.appendChild(
             createHTMLElement("label", {
                 htmlFor: "is-done",
-                className: "not-displayed",
+                className: "displayable not-displayed",
                 textContent: "Done?"
             })
         );
@@ -336,10 +338,17 @@ function drawUserTasks(userSession) {
             createHTMLElement("input", {
                 type: "checkbox",
                 id: "is-done",
-                className: "not-displayed",
+                className: "displayable not-displayed",
                 value: task.isDone
             })
         );
+
+        taskCard.addEventListener("click", e => {
+            taskCard.querySelectorAll(".displayable").forEach(item => {
+                if (item.classList.contains("not-displayed")) item.classList.replace("not-displayed", "displayed");
+                else item.classList.replace("displayed", "not-displayed");
+            });
+        })
 
         return taskCard;
     
@@ -433,7 +442,7 @@ function failureHandler(e) {
 // emitter.emit("request:registerNewUser", {username: "Peter", password: "pwd2"});
 // emitter.emit("request:registerNewUser", {username: "John", password: "pwd3"});
 
-// emitter.emit("request:logInUser", {username: "Sarah", password: "pwd1"});
+emitter.emit("request:logInUser", {username: "Sarah", password: "pwd1"});
 
 // // emitter.emit("request:logOutUser", {});
 
@@ -441,7 +450,7 @@ function failureHandler(e) {
 
 // emitter.emit("request:addProject", {projectName: "Garden"});
 
-// emitter.emit("request:addTask", {project: userSession.userProjects[0], title: "Test title", description: "Test description", dueDate: new Date(2025, 7, 9) , priority:"high"});
+// emitter.emit("request:addTask", {project: userSessionClone.userProjects[0], title: "Test title", description: "Test description", dueDate: new Date(2025, 7, 9) , priority:"high"});
 
 // emitter.emit("request:updateTask", {id: "f3379445-f0f5-4933-a50e-566fb976e8a6", description: "Updated test description"});
 
