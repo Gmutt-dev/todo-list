@@ -228,7 +228,22 @@ function drawUserProjects(userSession) {
             type: "button",
         })
         editButton.style.backgroundImage = `url(${iconEdit})`;
-        editButton.addEventListener("click", e => {});
+        editButton.addEventListener("click", e => {
+            editButton.classList.toggle("depressed");
+            deleteButton.classList.add("not-displayed");
+            userSelection.selectedProjectId = project.id;
+            projectsList.querySelectorAll(".project").forEach(element => element.classList.remove("user-selected"));
+            projectButton.parentElement.classList.add("user-selected");
+            drawTasksSection(userSession);
+            projectButton.contentEditable = true;
+            projectButton.focus();
+            projectButton.addEventListener("blur", e => {
+                emitter.emit("request:updateProject", {
+                    projectId: project.id,
+                    name: projectButton.textContent
+                })
+            })
+        });
         
         const deleteButton = createHTMLElement("button", {
             textContent: "",
