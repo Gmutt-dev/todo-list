@@ -9,8 +9,10 @@ import iconCancel from "./icons/cancel.svg";
 // Import the emitter object for DOM to appController controller communication via events
 // NB therefore no import of appController allowed here!  Must use emitter!
 import emitter from "./emitter";
+import { format } from "date-fns";
 import { createHTMLElement } from "./DOM-fns";
 import { loginButtonHandler, registerButtonHandler, logoutButtonHandler, addProjectButtonHandler } from "./DOM-handlers";
+import { createTask } from "./tasksManager";
 
 const appContainer = document.querySelector(".app-container");
 let userSessionClone = undefined;
@@ -305,48 +307,37 @@ function drawUserTasks(userSession) {
         taskCard.dataset.id = task.id;
         taskCard.dataset.linkedProjectId = task.linkedProjectId;
 
-        taskCard.appendChild(
-            createHTMLElement("h5", {
-                textContent: task.title
-            })
-        );
-        taskCard.appendChild(
-            createHTMLElement("p", {
-                textContent: task.description,
-                className: "displayable not-displayed"
-            })
-        );
-        taskCard.appendChild(
-            createHTMLElement("p", {
-                textContent: `Due date: ${task.dueDate}`
-            })
-        );
-        taskCard.appendChild(
-            createHTMLElement("p", {
-                textContent: `Priority: ${task.priority}`,
-                className: "displayable not-displayed"
-            })
-        );
-        taskCard.appendChild(
-            createHTMLElement("label", {
-                htmlFor: "is-done",
-                className: "displayable not-displayed",
-                textContent: "Done?"
-            })
-        );
-        taskCard.appendChild(
-            createHTMLElement("input", {
-                type: "checkbox",
-                id: "is-done",
-                className: "displayable not-displayed",
-                value: task.isDone
-            })
-        );
+        const taskCardHtmlContent = `
+            <header class="displayable not-displayed">
+                <button type="button">Edit</button>
+            </header>
+            <form action="" method="get">
+                <label for="${task.id}-title">Title:</label>
+                <output id="${task.id}-title" name="title"></output>
+                <label for="${task.id}-description" class="displayable not-displayed">Description:</label>
+                <output id="${task.id}-description" class="displayable not-displayed" name="description"></output>
+                <label for="${task.id}-due-date">Due date:</label>
+                <output id="${task.id}-due-date" name="dueDate"></output>
+                <label for="${task.id}-priority" class="displayable not-displayed">Priority:</label>
+                <output id="${task.id}-priority" class="displayable not-displayed" name="priority"></output>
+                <label for="${task.id}-is-done" class="displayable not-displayed">Done?</label>
+                <output id="${task.id}-is-done" class="displayable not-displayed" name="isDone"></output>
+            </form>
+            <footer class="displayable not-displayed">
+                <button type="button">Delete</button>
+            </footer>
+        `;
+
+        taskCard.innerHTML = taskCardHtmlContent;
+
+        taskCard.querySelectorAll("output").forEach(output => {
+            if (output.name === "dueDate") output.textContent = format(task.dueDate, "dd-MMM-yyyy");
+            else output.textContent = task[`${output.name}`];
+        })
 
         taskCard.addEventListener("click", e => {
             taskCard.querySelectorAll(".displayable").forEach(item => {
                 if (item.classList.contains("not-displayed")) item.classList.replace("not-displayed", "displayed");
-                else item.classList.replace("displayed", "not-displayed");
             });
         })
 

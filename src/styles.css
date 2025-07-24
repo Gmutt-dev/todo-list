@@ -218,6 +218,12 @@ table {
 
                 & .task-card {
                     display: grid;
+
+                    & > form {
+                        display: grid;
+                        grid-template-columns: 100px 1fr;
+                        align-content: start;
+                    }
                 }
             }
         }
