@@ -329,6 +329,7 @@ function drawUserTasks(userSession) {
         const taskCardHtmlContent = `
             <header class="displayable not-displayed">
                 <button type="button" class="edit-button">Edit</button>
+                <button type="button" class="compact-button">Compact</button>
             </header>
             <form action="" method="get">
                 <label for="${task.id}-title">Title:</label>
@@ -351,6 +352,7 @@ function drawUserTasks(userSession) {
 
         taskCard.toEditable = function () {
             taskCard.querySelector(".edit-button").remove();
+            taskCard.querySelector(".compact-button").remove();
             taskCard.querySelectorAll("output").forEach(output => {
                 let input;
                 if (output.name !== "priority") {
@@ -414,6 +416,18 @@ function drawUserTasks(userSession) {
             taskCard.toEditable();
         })
 
+        taskCard.toCompact = function () {
+            taskCard.querySelectorAll(".displayable").forEach(item => {
+                if (item.classList.contains("displayed")) item.classList.replace("displayed", "not-displayed");
+            });
+        }
+        
+        taskCard.querySelector(".compact-button").addEventListener("click", e => {
+            taskCard.toCompact();
+            // Remove from userselection array, so it doesn't expand on next refresh
+            userSelection.selectedTaskIds.splice(userSelection.selectedTaskIds.findIndex( id => id === task.id), 1);
+        })
+
         // Fill in displayed values for all output fields
         taskCard.querySelectorAll("output").forEach(output => {
             if (output.name === "dueDate") output.value = format(task.dueDate, "dd-MMM-yyyy");
@@ -443,8 +457,10 @@ function drawUserTasks(userSession) {
 
         // Click on card: expand card + add to user's selected tasks array
         taskCard.addEventListener("click", e => {
-            taskCard.expand();
-            userSelection.selectedTaskIds.push(task.id);
+            if ((!userSelection.selectedTaskIds.includes(task.id)) && (e.target !== taskCard.querySelector(".compact-button"))) {
+                taskCard.expand();
+                userSelection.selectedTaskIds.push(task.id);
+            }
         })
 
         return taskCard;
