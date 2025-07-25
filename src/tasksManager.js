@@ -14,6 +14,9 @@ export function createTask(linkedProject, title, description, dueDate, priority)
     const id = crypto.randomUUID();
     const isDone = false;
 
+    // Set normal priority as default if invalid priority value received
+    if (!["high", "normal", "low"].includes(priority)) priority = "normal";
+
     return {
         id,
         linkedProjectId: linkedProject.id,

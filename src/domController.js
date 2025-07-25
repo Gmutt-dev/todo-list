@@ -332,13 +332,26 @@ function drawUserTasks(userSession) {
 
         taskCard.toEditable = function() {
             taskCard.querySelectorAll("output").forEach(output => {
-                const input = document.createElement("input");
+                let input;
+                if (output.name !== "priority") {
+                    input = document.createElement("input");
+                } else {
+                    input = document.createElement("select");
+                }
                 const attributes = output.attributes;
                 Array.from(attributes).forEach(attribute => {
                     input.setAttribute(attribute.name, attribute.value);
                 })
                 if (input.name === "isDone") input.checked = task.isDone;
-                else if (input.name === "dueDate") input.value = format(task.dueDate, "yyyy-MM-dd")
+                else if (input.name === "dueDate") input.value = format(task.dueDate, "yyyy-MM-dd");
+                else if (input.name === "priority") {
+                    input.innerHTML = `
+                        <option value="high">high</option>
+                        <option value="normal">normal</option>
+                        <option value="low">low</option>
+                    `;
+                    input.querySelector(`option[value=${task.priority}]`).selected=true;
+                }
                 else input.value = task[`${input.name}`];
                 output.replaceWith(input);
                 });
@@ -355,7 +368,7 @@ function drawUserTasks(userSession) {
                         title: taskCard.querySelector(`input[name="title"]`).value,
                         description: taskCard.querySelector(`input[name="description"]`).value,
                         dueDate: new Date(taskCard.querySelector(`input[name="dueDate"]`).value),
-                        priority: taskCard.querySelector(`input[name="priority"]`).value,
+                        priority: taskCard.querySelector(`select[name="priority"]`).value,
                         isDone: taskCard.querySelector(`input[name="isDone"]`).checked
                     })
                 });
