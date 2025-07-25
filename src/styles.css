@@ -176,21 +176,22 @@ table {
     
                     &.user-selected {
                         background-color: red;
+                        
+                        & button {
+                            
+                            &:first-child {
+                                margin-right: auto;
+        
+                                &:hover {
+                                    text-decoration: underline;
+                                }
+                                
+                            }
+                            &:not(:first-child) {
+                                width: 20px;
+                            }
                     }
                     
-                    & button {
-                        
-                        &:first-child {
-                            margin-right: auto;
-    
-                            &:hover {
-                                text-decoration: underline;
-                            }
-                            
-                        }
-                        &:not(:first-child) {
-                            width: 20px;
-                        }
                     }
                 }
             }
@@ -218,6 +219,8 @@ table {
 
                 & .task-card {
                     display: grid;
+
+                    border: 1px solid black;
 
                     & > form {
                         display: grid;

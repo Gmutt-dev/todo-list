@@ -220,14 +220,21 @@ function drawUserProjects(userSession) {
         });
         projectButton.addEventListener("click", e => {
             userSelection.selectedProjectId = project.id;
-            projectsList.querySelectorAll(".project").forEach(element => element.classList.remove("user-selected"));
+            projectsList.querySelectorAll(".project").forEach(element => {
+                element.classList.remove("user-selected");
+                element.querySelectorAll("button:not(:first-child").forEach(button => button.classList.add("not-displayed"));
+                element.querySelectorAll("button:not(:first-child").forEach(button => button.classList.add("not-displayed"));
+            })
             projectButton.parentElement.classList.add("user-selected");
+            editButton.classList.remove("not-displayed");
+            deleteButton.classList.remove("not-displayed");
             drawTasksSection(userSession);
         })
         
         const editButton = createHTMLElement("button", {
             textContent: "",
             type: "button",
+            className: "not-displayed"
         })
         editButton.style.backgroundImage = `url(${iconEdit})`;
         editButton.addEventListener("click", e => {
@@ -250,6 +257,7 @@ function drawUserProjects(userSession) {
         const deleteButton = createHTMLElement("button", {
             textContent: "",
             type: "button",
+            className: "not-displayed"
         })
         deleteButton.style.backgroundImage = `url(${iconDelete})`;
         deleteButton.addEventListener("click", e => {
@@ -449,6 +457,7 @@ function drawUserTasks(userSession) {
         // If new task item, go to edit mode without user request, mark as new task class (to be removed if successfully updated/submitted)
         if (taskCard.querySelector("output[name='title']").value === "<New Task, please complete>") {
             taskCard.classList.add("new-task");
+            taskCard.expand();
             taskCard.toEditable();
         }
 
