@@ -53,7 +53,7 @@ function addProjectHandler(event) {
 
 emitter.on("request:addTask", addTaskHandler);
 function addTaskHandler(event) {
-    if (addTask(event.project, event.title, event.description, event.dueDate, event.priority))
+    if (addTask(event.linkedProjectId, event.title, event.description, event.dueDate, event.priority))
         emitter.emit("userSessionUpdated", getUserSessionClone());
     else
         emitter.emit("fail:addTask", {});

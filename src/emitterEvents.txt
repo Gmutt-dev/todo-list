@@ -3,7 +3,7 @@ request:logInUser -> {username, password}
 request:logOutUser -> {}
 request:deregisterUser -> {username, password}
 request:addProject -> {projectName}
-request:addTask -> {projectOBJ, title, description, dueDate, priority}
+request:addTask -> {linkedProjectId, title, description, dueDate, priority}
 request:deleteProject -> {projectId}
 request:deleteTask -> {taskId}
 request:updateProject -> {projectId, name}

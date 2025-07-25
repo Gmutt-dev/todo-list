@@ -12,7 +12,7 @@ import emitter from "./emitter";
 import { format } from "date-fns";
 import { createHTMLElement } from "./DOM-fns";
 import { loginButtonHandler, registerButtonHandler, logoutButtonHandler, addProjectButtonHandler } from "./DOM-handlers";
-import { createTask } from "./tasksManager";
+import { addTask, createTask } from "./tasksManager";
 
 const appContainer = document.querySelector(".app-container");
 let userSessionClone = undefined;
@@ -282,8 +282,27 @@ function drawTasksHeader() {
         textContent: "Tasks:"
     })
     div.appendChild(p);
+    
+    const addTaskButton = createHTMLElement("button", {
+        type: "button",
+        className: "add-task-button",
+        textContent: "add task"
+    })
+    addTaskButton.addEventListener("click", e => {
+        emitter.emit("request:addTask", {
+           linkedProjectId: userSelection.selectedProjectId
+        })
+    })
+
+    //request:addTask -> {linkedProjectId, title, description, dueDate, priority}
+    div.appendChild(addTaskButton);
+
     if (userSelection.selectedProjectId) p.textContent = "Tasks:";
-        else p.textContent = "Please select a project from the left bar, to show related tasks";
+        else {
+            addTaskButton.classList.add("not-displayed");
+            p.textContent = "Please select a project from the left bar, to show related tasks";
+        }
+
     mainSection.appendChild(div);
 }
 
@@ -331,6 +350,7 @@ function drawUserTasks(userSession) {
         taskCard.innerHTML = taskCardHtmlContent;
 
         taskCard.toEditable = function () {
+            taskCard.querySelector(".edit-button").remove();
             taskCard.querySelectorAll("output").forEach(output => {
                 let input;
                 if (output.name !== "priority") {
@@ -363,6 +383,8 @@ function drawUserTasks(userSession) {
                 });
                 submitButton.addEventListener("click", e => {
                     e.preventDefault();
+                    // If new task successfully updated, remove the new-task class to avoid deletion on clicking edit mode cancel button in future
+                    taskCard.classList.remove("new-task");
                     emitter.emit("request:updateTask", {
                         id: task.id,
                         title: taskCard.querySelector(`input[name="title"]`).value,
@@ -381,13 +403,15 @@ function drawUserTasks(userSession) {
                 });
                 taskCard.querySelector("footer").appendChild(cancelButton);
                 cancelButton.addEventListener("click", e => {
-                    drawTasksSection(userSession);
+                    // Delete task if it's a new unedited task
+                    if (taskCard.classList.contains("new-task")) emitter.emit("request:deleteTask", {taskId: task.id})
+                        // Otherwise, just redraw the session
+                        else drawTasksSection(userSession);
                 })
         }
 
         taskCard.querySelector(".edit-button").addEventListener("click", e => {
             taskCard.toEditable();
-            e.target.remove();
         })
 
         // Fill in displayed values for all output fields
@@ -397,6 +421,7 @@ function drawUserTasks(userSession) {
             else output.value = task[`${output.name}`];
         })
 
+        
         taskCard.querySelector(".delete-button").addEventListener("click", e => {
             emitter.emit("request:deleteTask", {taskId: task.id})
         })
@@ -407,6 +432,12 @@ function drawUserTasks(userSession) {
             });
         }
         
+        // If new task item, go to edit mode without user request, mark as new task class (to be removed if successfully updated/submitted)
+        if (taskCard.querySelector("output[name='title']").value === "<New Task, please complete>") {
+            taskCard.classList.add("new-task");
+            taskCard.toEditable();
+        }
+
         // Expand task card if user selection requires it
         if (userSelection.selectedTaskIds.includes(task.id)) taskCard.expand();
 

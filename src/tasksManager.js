@@ -10,7 +10,7 @@ taskList.forEach( (task, index) => {
 } )
 
 // Factory function to create a new task object
-export function createTask(linkedProject, title, description, dueDate, priority) {
+export function createTask(linkedProjectId, title="<New Task, please complete>", description="none", dueDate=Date(), priority) {
     const id = crypto.randomUUID();
     const isDone = false;
 
@@ -19,7 +19,7 @@ export function createTask(linkedProject, title, description, dueDate, priority)
 
     return {
         id,
-        linkedProjectId: linkedProject.id,
+        linkedProjectId,
         title,
         description,
         dueDate,
