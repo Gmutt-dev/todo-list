@@ -397,6 +397,9 @@ function drawUserTasks(userSession) {
             else output.value = task[`${output.name}`];
         })
 
+        taskCard.querySelector(".delete-button").addEventListener("click", e => {
+            emitter.emit("request:deleteTask", {taskId: task.id})
+        })
         
         taskCard.expand = function () {
             taskCard.querySelectorAll(".displayable").forEach(item => {
@@ -406,7 +409,7 @@ function drawUserTasks(userSession) {
         
         // Expand task card if user selection requires it
         if (userSelection.selectedTaskIds.includes(task.id)) taskCard.expand();
-        
+
         // Click on card: expand card + add to user's selected tasks array
         taskCard.addEventListener("click", e => {
             taskCard.expand();
