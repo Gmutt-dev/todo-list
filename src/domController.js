@@ -18,14 +18,14 @@ const appContainer = document.querySelector(".app-container");
 let userSessionClone = undefined;
 let userSelection = {
     selectedProjectId: undefined,
-    selectedTaskId: undefined
+    selectedTaskIds: []
 }
 
 function resetUserData() {
     userSessionClone = undefined;
     userSelection = {
     selectedProjectId: undefined,
-    selectedTaskId: undefined
+    selectedTaskIds: []
 }
 }
 
@@ -296,7 +296,7 @@ function drawUserTasks(userSession) {
     mainSection.appendChild(tasksContainer);
 
     userSession.userTasks
-        .filter( task => userSelection.selectedProjectId ? task.linkedProjectId === userSelection.selectedProjectId : false )
+        .filter( task => userSelection.selectedProjectId ? (task.linkedProjectId === userSelection.selectedProjectId) : false )
         .map(toHTMLElement)
         .forEach(element => tasksContainer.appendChild(element));
     
@@ -330,7 +330,7 @@ function drawUserTasks(userSession) {
 
         taskCard.innerHTML = taskCardHtmlContent;
 
-        taskCard.toEditable = function() {
+        taskCard.toEditable = function () {
             taskCard.querySelectorAll("output").forEach(output => {
                 let input;
                 if (output.name !== "priority") {
@@ -390,20 +390,30 @@ function drawUserTasks(userSession) {
             e.target.remove();
         })
 
+        // Fill in displayed values for all output fields
         taskCard.querySelectorAll("output").forEach(output => {
             if (output.name === "dueDate") output.value = format(task.dueDate, "dd-MMM-yyyy");
             else if (output.name === "isDone") output.value = task.isDone ? "yes" : "no";
             else output.value = task[`${output.name}`];
         })
 
-        taskCard.addEventListener("click", e => {
+        
+        taskCard.expand = function () {
             taskCard.querySelectorAll(".displayable").forEach(item => {
                 if (item.classList.contains("not-displayed")) item.classList.replace("not-displayed", "displayed");
             });
+        }
+        
+        // Expand task card if user selection requires it
+        if (userSelection.selectedTaskIds.includes(task.id)) taskCard.expand();
+        
+        // Click on card: expand card + add to user's selected tasks array
+        taskCard.addEventListener("click", e => {
+            taskCard.expand();
+            userSelection.selectedTaskIds.push(task.id);
         })
 
         return taskCard;
-    
         }
 }
 
