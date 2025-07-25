@@ -309,7 +309,7 @@ function drawUserTasks(userSession) {
 
         const taskCardHtmlContent = `
             <header class="displayable not-displayed">
-                <button type="button">Edit</button>
+                <button type="button" class="edit-button">Edit</button>
             </header>
             <form action="" method="get">
                 <label for="${task.id}-title">Title:</label>
@@ -317,22 +317,59 @@ function drawUserTasks(userSession) {
                 <label for="${task.id}-description" class="displayable not-displayed">Description:</label>
                 <output id="${task.id}-description" class="displayable not-displayed" name="description"></output>
                 <label for="${task.id}-due-date">Due date:</label>
-                <output id="${task.id}-due-date" name="dueDate"></output>
+                <output id="${task.id}-due-date" name="dueDate" type="date"></output>
                 <label for="${task.id}-priority" class="displayable not-displayed">Priority:</label>
                 <output id="${task.id}-priority" class="displayable not-displayed" name="priority"></output>
                 <label for="${task.id}-is-done" class="displayable not-displayed">Done?</label>
-                <output id="${task.id}-is-done" class="displayable not-displayed" name="isDone"></output>
+                <output id="${task.id}-is-done" class="displayable not-displayed" name="isDone" type="checkbox"></output>
             </form>
             <footer class="displayable not-displayed">
-                <button type="button">Delete</button>
+                <button type="button" class="delete-button">Delete</button>
             </footer>
         `;
 
         taskCard.innerHTML = taskCardHtmlContent;
 
+        taskCard.toEditable = function() {
+            taskCard.querySelectorAll("output").forEach(output => {
+                const input = document.createElement("input");
+                const attributes = output.attributes;
+                Array.from(attributes).forEach(attribute => {
+                    input.setAttribute(attribute.name, attribute.value);
+                })
+                if (input.name === "isDone") input.checked = task.isDone;
+                else if (input.name === "dueDate") input.value = format(task.dueDate, "yyyy-MM-dd")
+                else input.value = task[`${input.name}`];
+                output.replaceWith(input);
+                });
+
+                const submitButton = createHTMLElement("button", {
+                    type: "submit",
+                    textContent: "Submit",
+                    className: "submit-button"
+                });
+                submitButton.addEventListener("click", e => {
+                    e.preventDefault();
+                    emitter.emit("request:updateTask", {
+                        id: task.id,
+                        title: taskCard.querySelector(`input[name="title"]`).value,
+                        description: taskCard.querySelector(`input[name="description"]`).value,
+                        dueDate: new Date(taskCard.querySelector(`input[name="dueDate"]`).value),
+                        priority: taskCard.querySelector(`input[name="priority"]`).value,
+                        isDone: taskCard.querySelector(`input[name="isDone"]`).checked
+                    })
+                });
+                taskCard.querySelector(".delete-button").replaceWith(submitButton);
+        }
+
+        taskCard.querySelector(".edit-button").addEventListener("click", e => {
+            taskCard.toEditable();
+            e.target.remove();
+        })
+
         taskCard.querySelectorAll("output").forEach(output => {
-            if (output.name === "dueDate") output.textContent = format(task.dueDate, "dd-MMM-yyyy");
-            else output.textContent = task[`${output.name}`];
+            if (output.name === "dueDate") output.value = format(task.dueDate, "dd-MMM-yyyy");
+            else output.value = task[`${output.name}`];
         })
 
         taskCard.addEventListener("click", e => {

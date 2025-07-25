@@ -52,7 +52,7 @@ export function updateTask(updatedTask) {
     if (updatedTask.description) currentTask.description = updatedTask.description;
     if (updatedTask.dueDate) currentTask.dueDate = updatedTask.dueDate;
     if (updatedTask.priority) currentTask.priority = updatedTask.priority;
-    if (updatedTask.isDone) currentTask.isDone = updatedTask.isDone;
+    if (updatedTask.isDone || updatedTask.isDone === false) currentTask.isDone = updatedTask.isDone;
     setStoredItem("taskList", taskList);
 }
 

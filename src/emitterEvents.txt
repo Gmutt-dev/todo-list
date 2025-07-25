@@ -7,7 +7,7 @@ request:addTask -> {projectOBJ, title, description, dueDate, priority}
 request:deleteProject -> {projectId}
 request:deleteTask -> {taskId}
 request:updateProject -> {projectId, name}
-request:updateTask -> {taskId, other properties to change}
+request:updateTask -> {id, other properties to change}
 
 success:newUserRegistered -> {}
 success:userDeregistered -> {}
