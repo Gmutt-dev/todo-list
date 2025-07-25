@@ -360,6 +360,16 @@ function drawUserTasks(userSession) {
                     })
                 });
                 taskCard.querySelector(".delete-button").replaceWith(submitButton);
+
+                const cancelButton = createHTMLElement("button", {
+                    type: "button",
+                    textContent: "Cancel",
+                    className: "cancel-button"
+                });
+                taskCard.querySelector("footer").appendChild(cancelButton);
+                cancelButton.addEventListener("click", e => {
+                    drawTasksSection(userSession);
+                })
         }
 
         taskCard.querySelector(".edit-button").addEventListener("click", e => {
