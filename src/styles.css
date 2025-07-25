@@ -223,6 +223,10 @@ table {
                         display: grid;
                         grid-template-columns: 100px 1fr;
                         align-content: start;
+
+                        > input[type="checkbox"] {
+                            justify-self: start;
+                        }
                     }
                 }
             }

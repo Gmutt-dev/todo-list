@@ -320,7 +320,7 @@ function drawUserTasks(userSession) {
                 <output id="${task.id}-due-date" name="dueDate" type="date"></output>
                 <label for="${task.id}-priority" class="displayable not-displayed">Priority:</label>
                 <output id="${task.id}-priority" class="displayable not-displayed" name="priority"></output>
-                <label for="${task.id}-is-done" class="displayable not-displayed">Done?</label>
+                <label for="${task.id}-is-done" class="displayable not-displayed">Completed?</label>
                 <output id="${task.id}-is-done" class="displayable not-displayed" name="isDone" type="checkbox"></output>
             </form>
             <footer class="displayable not-displayed">
@@ -379,6 +379,7 @@ function drawUserTasks(userSession) {
 
         taskCard.querySelectorAll("output").forEach(output => {
             if (output.name === "dueDate") output.value = format(task.dueDate, "dd-MMM-yyyy");
+            else if (output.name === "isDone") output.value = task.isDone ? "yes" : "no";
             else output.value = task[`${output.name}`];
         })
 
