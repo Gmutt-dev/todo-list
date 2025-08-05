@@ -535,12 +535,3 @@ function failureHandler(e) {
     modal.appendChild(closeButton);
     modal.showModal();
 }
-
-
-
-
-// TEMP - console testing
-
-emitter.emit("request:logInUser", {username: "Sarah", password: "pwd1"});
-
-// END TEMP
