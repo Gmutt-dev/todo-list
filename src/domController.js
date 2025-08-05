@@ -114,7 +114,7 @@ function initializeAppGrid() {
 initializeAppGrid();
 drawDefaultApp();
 
-// Event listener on document to close all pop-ups when clicing outside of the pop-ups
+// Event listener on document to close all pop-ups when clicking outside of the pop-ups
 // document.addEventListener("click", e => {
 //     const popups = document.querySelectorAll(".pop-up");
 //     popups.forEach(popup => {
@@ -345,11 +345,11 @@ function drawUserTasks(userSession) {
                 <label for="${task.id}-description" class="displayable not-displayed">Description:</label>
                 <output id="${task.id}-description" class="displayable not-displayed" name="description"></output>
                 <label for="${task.id}-due-date">Due date:</label>
-                <output id="${task.id}-due-date" name="dueDate" type="date"></output>
+                <output id="${task.id}-due-date" name="dueDate"></output>
                 <label for="${task.id}-priority" class="displayable not-displayed">Priority:</label>
                 <output id="${task.id}-priority" class="displayable not-displayed" name="priority"></output>
                 <label for="${task.id}-is-done" class="displayable not-displayed">Completed?</label>
-                <output id="${task.id}-is-done" class="displayable not-displayed" name="isDone" type="checkbox"></output>
+                <output id="${task.id}-is-done" class="displayable not-displayed" name="isDone"></output>
             </form>
             <footer class="displayable not-displayed">
                 <button type="button" class="delete-button">Delete</button>
@@ -372,8 +372,14 @@ function drawUserTasks(userSession) {
                 Array.from(attributes).forEach(attribute => {
                     input.setAttribute(attribute.name, attribute.value);
                 })
-                if (input.name === "isDone") input.checked = task.isDone;
-                else if (input.name === "dueDate") input.value = format(task.dueDate, "yyyy-MM-dd");
+                if (input.name === "isDone") {
+                    input.checked = task.isDone;
+                    input.type = "checkbox";
+                }
+                else if (input.name === "dueDate") {
+                    input.value = format(task.dueDate, "yyyy-MM-dd");
+                    input.type = "date";
+                }
                 else if (input.name === "priority") {
                     input.innerHTML = `
                         <option value="high">high</option>
