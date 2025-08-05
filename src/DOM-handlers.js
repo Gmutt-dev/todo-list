@@ -20,7 +20,8 @@ export function loginButtonHandler(e) {
 
     modal.appendChild(
         createHTMLElement("p", {
-            textContent: "IMPORTANT! - passwords and user content is not protected/encrypted.  However, all data remains ONLY on your device.  Please don't include any sensitive information anywhere in the app."
+            textContent: "IMPORTANT! - passwords and user content is not protected/encrypted.  However, all data remains ONLY on your device.  Please don't include any sensitive information anywhere in the app.",
+            className: "warning"
         })
     );
 
@@ -42,6 +43,8 @@ export function loginButtonHandler(e) {
     })
     form.appendChild(usernameInput);
 
+    form.appendChild(document.createElement("br"));
+
     form.appendChild(
         createHTMLElement("label", {
             htmlFor: "password-input",
@@ -55,6 +58,8 @@ export function loginButtonHandler(e) {
         required: true
     })
     form.appendChild(passwordInput);
+
+    form.appendChild(document.createElement("br"));
     
     const submitButton = createHTMLElement("button", {
         type: "button",
@@ -115,7 +120,8 @@ export function registerButtonHandler(e) {
 
     modal.appendChild(
         createHTMLElement("p", {
-            textContent: "IMPORTANT! - passwords and user content is not protected/encrypted.  However, all data remains ONLY on your device.  Please don't include any sensitive information anywhere in the app."
+            textContent: "IMPORTANT! - passwords and user content is not protected/encrypted.  However, all data remains ONLY on your device.  Please don't include any sensitive information anywhere in the app.",
+            className: "warning"
         })
     );
 
@@ -137,6 +143,8 @@ export function registerButtonHandler(e) {
     })
     form.appendChild(usernameInput);
 
+    form.appendChild(document.createElement("br"));
+
     form.appendChild(
         createHTMLElement("label", {
             htmlFor: "password-input",
@@ -151,6 +159,8 @@ export function registerButtonHandler(e) {
     })
     
     form.appendChild(passwordInput);
+
+    form.appendChild(document.createElement("br"));
     
     const submitButton = createHTMLElement("button", {
         type: "button",

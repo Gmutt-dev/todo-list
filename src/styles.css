@@ -58,20 +58,25 @@ table {
     display: none;
 }
 
+body {
+    background-color: lightsteelblue;
+}
+
 .app-container {
     margin: auto;
-    background-color: lightsteelblue;
+    padding: 2px;
     min-height: 100vh;
     min-width: 600px;
     max-width: 1200px;
-    gap: 20px;
+    gap: 4px;
 
     display: grid;
-    grid-template-columns: minmax(100px, 1fr) 6fr;
+    grid-template-columns: minmax(200px, 1fr) 6fr;
     align-content: start;
 
     & > * {
-        margin: 10px 15px;
+        padding: 10px 15px;
+        margin: 4px;
     }
 
     & .header {
@@ -86,27 +91,27 @@ table {
             font-weight: bold;
         }
 
-        & button {
-            border: none;
-            background-color: inherit;
-
-        }
-
+        
         & button:hover {
             text-decoration: underline;
         }
     }
-
+    
     &.default {
-
+        
         & .header {
-
+            
             & .logo {
                 font-size: 48px;
-
+                
                 & p {
                     display: none;
-                }
+                }   
+            }
+
+            & button {
+                border: none;
+                background-color: inherit;
             }
         }
 
@@ -120,6 +125,12 @@ table {
     }
     
     &.logged-in {
+
+        & > * {
+            border: 1px solid transparent;
+            box-shadow: 0 0 6px 2px;
+            border-radius: 5px;
+        }
 
         & .header {
 
@@ -175,7 +186,7 @@ table {
                     gap: 5px;
     
                     &.user-selected {
-                        background-color: red;
+                        background-color: blue;
                         
                         & button {
                             
@@ -184,19 +195,23 @@ table {
         
                                 &:hover {
                                     text-decoration: underline;
-                                }
-                                
+                                }   
                             }
+
                             &:not(:first-child) {
+
                                 width: 20px;
                             }
-                    }
-                    
+
+                            &[contenteditable="true"] {
+                                background-color: white;
+                                border: 1px solid black;
+                                border-radius: 5px;
+                            }
+                        }
                     }
                 }
             }
-
-
         }
 
         & .main-section {
@@ -204,13 +219,9 @@ table {
             align-content: start;
             gap: 20px;
 
-            & .task-header {
-
-            }
-
             & .tasks-container {
                 display: grid;
-                gap: 10px;
+                gap: 12px;
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));;
 
                 &.show-list {
@@ -219,11 +230,17 @@ table {
 
                 & .task-card {
                     display: grid;
+                    gap: 5px;
 
-                    border: 1px solid black;
+                    padding: 5px;
+                    border: 0 solid black;
+                    border-style: inset;
+                    border-radius: 5px;
+                    box-shadow: 0 0 2px 2px;
 
                     & > form {
                         display: grid;
+                        gap: 2px;
                         grid-template-columns: 100px 1fr;
                         align-content: start;
 
@@ -235,4 +252,40 @@ table {
             }
         }
     }
+}
+
+.modal-container {
+    border-radius: 15px;
+    box-shadow: 1px 1px 2px black;
+    max-width: 400px;
+
+    &::backdrop {
+        opacity: 0.7;
+        background-color: lightgrey;
+    }
+
+    & > * {
+        padding: 5px;
+    }
+
+    & h2 {
+        font-size: 2rem;
+    }
+
+    & .warning {
+        color: red;
+    }
+
+    & label {
+        padding: 0 5px 0 0;
+    }
+
+    & input {
+        margin-bottom: 5px;
+    }
+
+    & button {
+        margin-right: 5px;
+    }
+
 }
