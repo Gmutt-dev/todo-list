@@ -94,6 +94,7 @@ body {
         
         & button:hover {
             text-decoration: underline;
+            cursor: pointer;
         }
     }
     
@@ -154,6 +155,7 @@ body {
                 background-position: center;
                 background-size: contain;
                 border: none;
+                cursor: pointer;
             }
 
             & .projects-list {
@@ -200,12 +202,12 @@ body {
                                     text-decoration: underline;
                                 }   
                             }
-
+                            
                             &:not(:first-child) {
-
+                                
                                 width: 20px;
                             }
-
+                            
                             &[contenteditable="true"] {
                                 background-color: white;
                                 border: 1px solid black;
@@ -213,6 +215,7 @@ body {
                                 
                                 &:hover {
                                     text-decoration: none;
+                                    cursor: default;
                                 }
                             }
                         }
@@ -225,6 +228,10 @@ body {
             display: grid;
             align-content: start;
             gap: 20px;
+
+            & button {
+                cursor: pointer;
+            }
 
             & .tasks-container {
                 display: grid;
