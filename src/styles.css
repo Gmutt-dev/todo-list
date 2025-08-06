@@ -215,7 +215,7 @@ body {
                                 
                                 &:hover {
                                     text-decoration: none;
-                                    cursor: default;
+                                    cursor: text;
                                 }
                             }
                         }
