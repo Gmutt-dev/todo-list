@@ -267,7 +267,11 @@ function drawUserProjects(userSession) {
             className: "project"
         });
         li.dataset.id = project.id;
-        if (userSelection.selectedProjectId === li.dataset.id) li.classList.add("user-selected");
+        if (userSelection.selectedProjectId === li.dataset.id) {
+            li.classList.add("user-selected");
+            editButton.classList.remove("not-displayed");
+            deleteButton.classList.remove("not-displayed");
+        }
         li.dataset.linkedUserId = project.linkedUserId;
         li.appendChild(projectButton);
         li.appendChild(editButton);
