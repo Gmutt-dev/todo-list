@@ -140,7 +140,7 @@ function  drawUserHeader(userSession) {
         textContent: "Log out"
     });
     logoutButton.addEventListener("click", e => {
-        userSessionClone = undefined;
+        resetUserData();
         drawDefaultApp();
     });
     userDetailDiv.appendChild(logoutButton);
