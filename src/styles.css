@@ -186,12 +186,15 @@ body {
                     gap: 5px;
     
                     &.user-selected {
-                        background-color: blue;
+                        background-color: lightslategrey;
+                        border-radius: 5px;
                         
                         & button {
                             
                             &:first-child {
-                                margin-right: auto;
+                                /* margin-right: auto; */
+                                flex: 1 0 auto;
+                                text-align: left;
         
                                 &:hover {
                                     text-decoration: underline;
@@ -207,6 +210,10 @@ body {
                                 background-color: white;
                                 border: 1px solid black;
                                 border-radius: 5px;
+                                
+                                &:hover {
+                                    text-decoration: none;
+                                }
                             }
                         }
                     }
