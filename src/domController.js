@@ -214,16 +214,19 @@ function drawUserProjects(userSession) {
             textContent: project.name,
         });
         projectButton.addEventListener("click", e => {
-            userSelection.selectedProjectId = project.id;
-            projectsList.querySelectorAll(".project").forEach(element => {
-                element.classList.remove("user-selected");
-                element.querySelectorAll("button:not(:first-child").forEach(button => button.classList.add("not-displayed"));
-                element.querySelectorAll("button:not(:first-child").forEach(button => button.classList.add("not-displayed"));
-            })
-            projectButton.parentElement.classList.add("user-selected");
-            editButton.classList.remove("not-displayed");
-            deleteButton.classList.remove("not-displayed");
-            drawTasksSection(userSession);
+            if (!e.target.parentElement.classList.contains("user-selected")) {
+                userSelection.selectedProjectId = project.id;
+                projectsList.querySelectorAll(".project").forEach(element => {
+                    element.classList.remove("user-selected");
+                    element.querySelectorAll("button:not(:first-child").forEach(button => button.classList.add("not-displayed"));
+                    element.querySelectorAll("button:not(:first-child").forEach(button => button.classList.add("not-displayed"));
+                })
+                projectButton.parentElement.classList.add("user-selected");
+                editButton.classList.remove("not-displayed");
+                deleteButton.classList.remove("not-displayed");
+                drawTasksSection(userSession);
+                console.log("oops")
+            }
         })
         
         const editButton = createHTMLElement("button", {
