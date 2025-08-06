@@ -1,5 +1,5 @@
 import { isRegisteredUser, registerNewUser, deregisterUser } from "./usersManager";
-import { getLoggedInUser, getUserSessionClone, newProject, newTask, createUserSession, clearUserSession } from "./userSession";
+import { getLoggedInUser, getUserSessionClone, createUserSession, clearUserSession } from "./userSession";
 import { addProject, deleteProjectByProjectId, updateProject } from "./projectsManager";
 import { addTask, deleteTaskByTaskId, updateTask } from "./tasksManager";
 
@@ -10,9 +10,14 @@ import emitter from "./emitter";
 emitter.on("request:registerNewUser", registerNewUserHandler)
 function registerNewUserHandler(event) {
     if (registerNewUser(event.username, event.password))
-        emitter.emit("success:newUserRegistered", {});
+        emitter.emit("success:newUserRegistered", {
+            message: `New user registered: ${event.username}`
+        });
     else
-        emitter.emit("fail:newUserRegistered", {});
+        emitter.emit("fail:newUserRegistered", {
+            message: `Failed to register new user ${event.username}
+            Please try another username.`
+        });
 }
 
 emitter.on("request:deregisterUser", deregisterUserHandler);

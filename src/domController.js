@@ -532,7 +532,24 @@ function failureHandler(e) {
     const modal = document.querySelector(".modal-container");
     modal.appendChild(
         createHTMLElement("p", {
-            textContent: `Error, please try again. ${e.errorMessage ? e.errorMessage : ""}`
+            textContent: `Error, please try again. ${e.message || ""}`
+        })
+    );
+    const closeButton = createHTMLElement("button", {
+        textContent: "close"
+    });
+    closeButton.addEventListener("click", resetModal)
+    modal.appendChild(closeButton);
+    modal.showModal();
+}
+
+emitter.on("success:newUserRegistered", successHandler);
+
+function successHandler(e) {
+    const modal = document.querySelector(".modal-container");
+    modal.appendChild(
+        createHTMLElement("p", {
+            textContent: `Success: ${e.message || ""}`
         })
     );
     const closeButton = createHTMLElement("button", {

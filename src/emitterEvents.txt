@@ -9,7 +9,7 @@ request:deleteTask -> {taskId}
 request:updateProject -> {projectId, name}
 request:updateTask -> {id, other properties to change}
 
-success:newUserRegistered -> {}
+success:newUserRegistered -> {message}
 success:userDeregistered -> {}
 userSessionUpdated -> userSessionClone: {
         loggedInUser: {username: loggedInUser.username},
@@ -17,7 +17,7 @@ userSessionUpdated -> userSessionClone: {
         userTasks
     }
 
-fail:newUserRegistered -> {?errorMessage}
+fail:newUserRegistered -> {message}
 fail:userLoggedIn -> {?errorMessage}
 fail:userLoggedOut -> {?errorMessage}
 fail:userDeregistered -> {?errorMessage}
