@@ -225,7 +225,6 @@ function drawUserProjects(userSession) {
                 editButton.classList.remove("not-displayed");
                 deleteButton.classList.remove("not-displayed");
                 drawTasksSection(userSession);
-                console.log("oops")
             }
         })
         
