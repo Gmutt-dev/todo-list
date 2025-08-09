@@ -1,8 +1,8 @@
 import mitt from "mitt";
 
-// Get emitter (pubsub/bus) object and export
 const emitter = mitt();
 export default emitter;
 
-
-
+// Personally I dislike default exports/imports as they can make traversing the codebase more difficult
+// Using named exports makes for beter consistency imo
+// export const emitter = mitt()
