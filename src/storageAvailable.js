@@ -1,5 +1,9 @@
-// Checks if browser storage is available
+// This doesn't need to be in its own module - I would keep all local storage code colocated
+// You have parameterised this function prematurely - it is only called in one place.
+
+// I would rename this something like 'checkLocalStorageAvailability'
 export default function storageAvailable(type) {
+  // There is no need to test the browser api here - just checking that it exists on the window is probably enough
   let storage;
   try {
     storage = window[type];
@@ -17,3 +21,7 @@ export default function storageAvailable(type) {
     );
   }
 }
+
+// Under what circumstances are you expecting local storage not to be defined?
+// This code is only targeting browser environments and LS is supported in 95% of all browsers
+// Useful website: https://caniuse.com/mdn-api_window_localstorage
