@@ -3,303 +3,373 @@
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /* My CSS: */
 
 :root {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
 }
 
 .not-displayed {
-    display: none;
+  display: none;
 }
 
 body {
-    background-color: lightsteelblue;
+  background-color: lightsteelblue;
 }
 
 .app-container {
-    margin: auto;
-    padding: 2px;
-    min-height: 100vh;
-    min-width: 600px;
-    max-width: 1200px;
-    gap: 4px;
+  margin: auto;
+  padding: 2px;
+  min-height: 100vh;
+  min-width: 600px;
+  max-width: 1200px;
+  gap: 4px;
 
-    display: grid;
-    grid-template-columns: minmax(200px, 1fr) 6fr;
-    align-content: start;
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 6fr;
+  align-content: start;
 
+  & > * {
+    padding: 10px 15px;
+    margin: 4px;
+  }
+
+  & .header {
+    grid-column: span 2;
+    height: 50px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    & .logo {
+      margin-right: auto;
+      font-weight: bold;
+    }
+
+    & button:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  &.default {
+    & .header {
+      & .logo {
+        font-size: 48px;
+
+        & p {
+          display: none;
+        }
+      }
+
+      & button {
+        border: none;
+        background-color: inherit;
+      }
+    }
+
+    & .main-section {
+      & p {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  &.logged-in {
     & > * {
-        padding: 10px 15px;
-        margin: 4px;
+      border: 1px solid transparent;
+      box-shadow: 0 0 6px 2px;
+      border-radius: 5px;
     }
 
     & .header {
-        grid-column: span 2;
-        height: 50px;
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        
-        & .logo {
-            margin-right: auto;
-            font-weight: bold;
-        }
-
-        
-        & button:hover {
-            text-decoration: underline;
-            cursor: pointer;
-        }
+      & .logo {
+        font-size: 36px;
+      }
     }
-    
-    &.default {
-        
-        & .header {
-            
-            & .logo {
-                font-size: 48px;
-                
-                & p {
-                    display: none;
-                }   
-            }
 
-            & button {
-                border: none;
-                background-color: inherit;
-            }
-        }
-
-        & .main-section {
-
-            & p {
-                margin-bottom: 20px;
-            }
-        }
-        
+    & .header .logo p {
+      display: block;
+      font-size: 16px;
+      font-weight: normal;
     }
-    
-    &.logged-in {
 
-        & > * {
-            border: 1px solid transparent;
-            box-shadow: 0 0 6px 2px;
+    & .left-sidebar {
+      & button {
+        font-size: 1rem;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: none;
+        cursor: pointer;
+      }
+
+      & .projects-list {
+        display: grid;
+        gap: 5px;
+
+        & > button:first-child {
+          text-align: end;
+          font-size: 1rem;
+          height: 30px;
+          background-position: left;
+          background-origin: content-box;
+        }
+
+        & form:not(.not-displayed) {
+          display: flex;
+          gap: 5px;
+
+          & input {
+            width: 90px;
+          }
+
+          & button {
+            width: 20px;
+          }
+        }
+
+        & .project {
+          display: flex;
+          gap: 5px;
+
+          &.user-selected {
+            background-color: lightslategrey;
             border-radius: 5px;
-        }
-
-        & .header {
-
-            & .logo {
-                font-size: 36px;
-            }
-        }
-        
-        & .header .logo p {
-            display: block;
-            font-size: 16px;
-            font-weight: normal;
-        }
-
-        & .left-sidebar {
 
             & button {
-                font-size: 1rem;
-                background-color: transparent;
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: contain;
-                border: none;
-                cursor: pointer;
+              &:first-child {
+                /* margin-right: auto; */
+                flex: 1 0 auto;
+                text-align: left;
+
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+
+              &:not(:first-child) {
+                width: 20px;
+              }
+
+              &[contenteditable="true"] {
+                background-color: white;
+                border: 1px solid black;
+                border-radius: 5px;
+
+                &:hover {
+                  text-decoration: none;
+                  cursor: text;
+                }
+              }
             }
-
-            & .projects-list {
-                display: grid;
-                gap: 5px;
-                
-                & > button:first-child {
-                    text-align: end;
-                    font-size: 1rem;
-                    height: 30px;
-                    background-position: left;
-                    background-origin: content-box;
-                }
-
-                & form:not(.not-displayed) {
-                    display: flex;
-                    gap: 5px;
-
-                    & input {
-                        width: 90px;
-                    }
-
-                    & button {
-                        width: 20px;
-                    }
-                }
-                
-                & .project {
-                    display: flex;
-                    gap: 5px;
-    
-                    &.user-selected {
-                        background-color: lightslategrey;
-                        border-radius: 5px;
-                        
-                        & button {
-                            
-                            &:first-child {
-                                /* margin-right: auto; */
-                                flex: 1 0 auto;
-                                text-align: left;
-        
-                                &:hover {
-                                    text-decoration: underline;
-                                }   
-                            }
-                            
-                            &:not(:first-child) {
-                                
-                                width: 20px;
-                            }
-                            
-                            &[contenteditable="true"] {
-                                background-color: white;
-                                border: 1px solid black;
-                                border-radius: 5px;
-                                
-                                &:hover {
-                                    text-decoration: none;
-                                    cursor: text;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+          }
         }
-
-        & .main-section {
-            display: grid;
-            align-content: start;
-            gap: 20px;
-
-            & button {
-                cursor: pointer;
-            }
-
-            & .tasks-container {
-                display: grid;
-                gap: 12px;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));;
-
-                &.show-list {
-                    grid-template-columns: none;
-                }
-
-                & .task-card {
-                    display: grid;
-                    gap: 5px;
-
-                    padding: 5px;
-                    border: 0 solid black;
-                    border-style: inset;
-                    border-radius: 5px;
-                    box-shadow: 0 0 2px 2px;
-
-                    & > form {
-                        display: grid;
-                        gap: 2px;
-                        grid-template-columns: 100px 1fr;
-                        align-content: start;
-
-                        > input[type="checkbox"] {
-                            justify-self: start;
-                        }
-                    }
-                }
-            }
-        }
+      }
     }
+
+    & .main-section {
+      display: grid;
+      align-content: start;
+      gap: 20px;
+
+      & button {
+        cursor: pointer;
+      }
+
+      & .tasks-container {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+        &.show-list {
+          grid-template-columns: none;
+        }
+
+        & .task-card {
+          display: grid;
+          gap: 5px;
+
+          padding: 5px;
+          border: 0 solid black;
+          border-style: inset;
+          border-radius: 5px;
+          box-shadow: 0 0 2px 2px;
+
+          & > form {
+            display: grid;
+            gap: 2px;
+            grid-template-columns: 100px 1fr;
+            align-content: start;
+
+            > input[type="checkbox"] {
+              justify-self: start;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .modal-container {
-    border-radius: 15px;
-    box-shadow: 1px 1px 2px black;
-    max-width: 400px;
+  border-radius: 15px;
+  box-shadow: 1px 1px 2px black;
+  max-width: 400px;
 
-    &::backdrop {
-        opacity: 0.7;
-        background-color: lightgrey;
-    }
+  &::backdrop {
+    opacity: 0.7;
+    background-color: lightgrey;
+  }
 
-    & > * {
-        padding: 5px;
-    }
+  & > * {
+    padding: 5px;
+  }
 
-    & h2 {
-        font-size: 2rem;
-    }
+  & h2 {
+    font-size: 2rem;
+  }
 
-    & .warning {
-        color: red;
-    }
+  & .warning {
+    color: red;
+  }
 
-    & label {
-        padding: 0 5px 0 0;
-    }
+  & label {
+    padding: 0 5px 0 0;
+  }
 
-    & input {
-        margin-bottom: 5px;
-    }
+  & input {
+    margin-bottom: 5px;
+  }
 
-    & button {
-        margin-right: 5px;
-    }
-
+  & button {
+    margin-right: 5px;
+  }
 }
